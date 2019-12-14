@@ -1,4 +1,4 @@
-ffmpeg -y -i /home/Scrivania/Magistrale/$name.mp4 \
+ffmpeg -y -i /home/$name.mp4 \
   -c:v libx264 -x264opts "keyint=24:min-keyint=24:no-scenecut" -r 24 \
   -c:a aac -strict -2 -b:a 128k \
   -bf 1 -b_strategy 0 -sc_threshold 0 -pix_fmt yuv420p \
@@ -12,4 +12,4 @@ ffmpeg -y -re -i sample_dash.mp4 \
   -map 0 \
   -c:a aac -strict -2 -b:a 128k \
   -use_timeline 1 -use_template 1 -window_size 5 -adaptation_sets "id=0,streams$
-  -f dash /$name/$name.mpd
+  -f dash /home/$name/$name.mpd
