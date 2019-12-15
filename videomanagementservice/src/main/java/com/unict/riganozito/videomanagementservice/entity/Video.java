@@ -2,7 +2,8 @@ package com.unict.riganozito.videomanagementservice.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+
+import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 public class Video {
@@ -17,8 +18,9 @@ public class Video {
     @NotNull
     private String author;
 
-    @Null
-    private String url;
+    @NotNull()
+    @Value("empty")
+    private String status;
 
     @NotNull
     @ManyToOne
@@ -42,6 +44,15 @@ public class Video {
         return this;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public Video setStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -51,22 +62,13 @@ public class Video {
         return this;
     }
 
-    public Video setUrl(String url) {
-        this.url = url;
+    public Video setUser(User user) {
+        this.user = user;
         return this;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public Video setUser(String url) {
-        this.url = url;
-        return this;
-    }
-
-    public String getUrl() {
-        return url;
+    public User getUser() {
+        return user;
     }
 
 }
