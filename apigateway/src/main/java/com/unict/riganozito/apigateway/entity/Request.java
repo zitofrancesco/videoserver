@@ -27,5 +27,51 @@ public class Request {
 
     private String error;
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getPayloadInputSize() {
+        return payloadInputSize;
+    }
+
+    public void setPayloadInputSize(Integer payloadInputSize) {
+        this.payloadInputSize = payloadInputSize;
+    }
+
+    public Integer getPayloadOutputSize() {
+        return payloadOutputSize;
+    }
+
+    public void setPayloadOutputSize(Integer payloadOutputSize) {
+        this.payloadOutputSize = payloadOutputSize;
+    }
+
+    public Float getResponseTime() {
+        return responseTime;
+    }
+
+    public void setResponseTime(Float responseTime) {
+        this.responseTime = responseTime;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 }
