@@ -7,23 +7,24 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class GatewayRoutes {
 
-    @Autowired
-    ApiGatewayService service;
-
     @Bean
-    public RouteLocator routeLocator(RouteLocatorBuilder routeLocatorBuilder){
+    public RouteLocator customRouteLocator(RouteLocatorBuilder routeLocatorBuilder){
+        System.out.println("Request arrived");
         return routeLocatorBuilder.routes()
                 .route(r ->
                         r.path("/vms/**")
-                            .filters(f -> f.rewritePath("/vms/(?.*)", "/${remains}"))
+                            .filters(f -> f
+                                    .rewritePath("/vms/(?.*)", "/${remains}")
+                            )
                             .uri("http:/localhost:9090"))
 
                 .route(r ->
                         r.path("/videofiles")
-                                .uri("/var/videosfiles"))
+                                .uri("file:///var/videosfiles"))
                 .build();
     }
 }
