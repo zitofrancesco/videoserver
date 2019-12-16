@@ -6,6 +6,7 @@ import com.unict.riganozito.videomanagementservice.services.*;
 import com.unict.riganozito.videomanagementservice.entity.Video;
 import com.unict.riganozito.videomanagementservice.exception.HttpStatusBadRequestException;
 import com.unict.riganozito.videomanagementservice.exception.HttpStatusInternalServerErrorException;
+import com.unict.riganozito.videomanagementservice.exception.HttpStatusNotFoundException;
 import com.unict.riganozito.videomanagementservice.exception.HttpStatusServiceUnavailableException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping(path = "/videos")
@@ -49,7 +52,7 @@ public class VideoController {
         // si deve verifica che l'utente sia autenticato
 
         // store video
-        if (!storageService.storeFile(video.getId(), file))
+        if (!storageService.storeFile(video, file))
             throw new HttpStatusInternalServerErrorException();
         // send post request to video processing service
         if (!videoProcessingService.videoProcess(video))
@@ -61,12 +64,18 @@ public class VideoController {
     }
 
     @GetMapping(path = "/")
-    public @ResponseBody List<Video> getsVideo() {
-        return null;
+    public @ResponseBody List<Video> getsVideos() {
+        return videoService.findAll();
     }
 
     @GetMapping(path = "/{id}")
-    public @ResponseBody Video getVideo(@PathVariable Integer id) {
-        return null;
+    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
+    public String getVideo(@PathVariable Integer id) throws HttpStatusNotFoundException {
+        Video video = videoService.findById(id);
+        if (video == null)
+            throw new HttpStatusNotFoundException();
+        String url = storageService.getRelativePath(video).toString();
+        return "redirect:/" + url;
+
     }
 }

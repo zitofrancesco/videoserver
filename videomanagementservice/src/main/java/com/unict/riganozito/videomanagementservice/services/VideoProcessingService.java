@@ -4,6 +4,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.unict.riganozito.videomanagementservice.entity.Video;
+import com.unict.riganozito.videomanagementservice.entity.VideoProcessingServiceEntity;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

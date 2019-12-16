@@ -1,10 +1,13 @@
-package com.unict.riganozito.videomanagementservice.services;
+package com.unict.riganozito.videomanagementservice.entity;
 
 import java.io.Serializable;
 
-import com.unict.riganozito.videomanagementservice.entity.Video;
+public class VideoProcessingServiceEntity implements Serializable {
 
-class VideoProcessingServiceEntity implements Serializable {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8833788493221015270L;
     private Integer videold;
 
     public VideoProcessingServiceEntity() {
