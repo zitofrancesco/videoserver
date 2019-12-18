@@ -3,19 +3,6 @@ services:
   videoprocessingservice:
     image: videoprocessingservice-prod:v1
     restart: always
-    links:
-      - mysql
     ports:
       - "8090:8090"
-    environment:
-      - MYSQL_USER: videouser
-      - MYSQL_PASSWORD: video
     volumes: ./var
-
-  mysql:
-    image: mysql:5.7
-    restart: always
-    environment:
-      - MYSQL_DATABASE: videoservice
-      - MYSQL_USER: videouser
-      - MYSQL_PASSWORD: video

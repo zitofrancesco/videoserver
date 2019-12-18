@@ -22,10 +22,10 @@ public class ProcessingController {
     @PostMapping(path= "/process")
     public @ResponseBody String process(@RequestBody String video) throws IOException {
         final JsonNode jsonNode = mapper.readTree(video);
-        Integer id = jsonNode.findValue("videoId").asInt();
+        String id = jsonNode.findValue("videoId").toString();
         if(processingService.processVideo(id))
-            return String.format("Video with id %d processed.", id);
+            return String.format("Video with id %s processed.", id);
         else
-            return String.format("Cannot process video with id %d.", id);
+            return String.format("Cannot process video with id %s.", id);
     }
 }
