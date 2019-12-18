@@ -14,13 +14,16 @@ public class Request {
     private Integer id;
 
     @NotNull
-    private String type;
+    private String method;
 
     @NotNull
-    private Integer payloadInputSize;
+    private String uri;
 
     @NotNull
-    private Integer payloadOutputSize;
+    private Long payloadInputSize;
+
+    @NotNull
+    private Long payloadOutputSize;
 
     @NotNull
     private Float responseTime;
@@ -35,27 +38,27 @@ public class Request {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getMethod() {
+        return method;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setMethod(String type) {
+        this.method = type;
     }
 
-    public Integer getPayloadInputSize() {
+    public Long getPayloadInputSize() {
         return payloadInputSize;
     }
 
-    public void setPayloadInputSize(Integer payloadInputSize) {
+    public void setPayloadInputSize(Long payloadInputSize) {
         this.payloadInputSize = payloadInputSize;
     }
 
-    public Integer getPayloadOutputSize() {
+    public Long getPayloadOutputSize() {
         return payloadOutputSize;
     }
 
-    public void setPayloadOutputSize(Integer payloadOutputSize) {
+    public void setPayloadOutputSize(Long payloadOutputSize) {
         this.payloadOutputSize = payloadOutputSize;
     }
 
@@ -73,5 +76,13 @@ public class Request {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

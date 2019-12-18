@@ -1,7 +1,5 @@
 package com.unict.riganozito.apigateway.router;
 
-import com.unict.riganozito.apigateway.service.ApiGatewayService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +11,6 @@ public class GatewayRoutes {
 
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder routeLocatorBuilder){
-        System.out.println("Request arrived");
         return routeLocatorBuilder.routes()
                 .route(r ->
                         r.path("/vms/**")
