@@ -30,41 +30,36 @@ public class Video {
         return id;
     }
 
-    public Video setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public Video setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public Video setStatus(String status) {
+    public void setStatus(String status) {
         this.status = status;
-        return this;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public Video setAuthor(String author) {
+    public void setAuthor(String author) {
         this.author = author;
-        return this;
     }
 
-    public Video setUser(User user) {
+    public void setUser(User user) {
         this.user = user;
-        return this;
     }
 
     public User getUser() {
