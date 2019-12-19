@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ApigatewayApplication<apigateway>",
+            "request": "launch",
+            "mainClass": "com.unict.riganozito.apigateway.ApigatewayApplication",
+            "projectName": "apigateway"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-VideomanagementserviceApplication<videomanagementservice>",
+            "request": "launch",
+            "mainClass": "com.unict.riganozito.videomanagementservice.VideomanagementserviceApplication",
+            "projectName": "videomanagementservice"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-VideoprocessingserviceApplication<videoprocessingservice>",
+            "request": "launch",
+            "mainClass": "com.unict.riganozito.videoprocessingservice.VideoprocessingserviceApplication",
+            "projectName": "videoprocessingservice"
+        }
+    ]
+}
