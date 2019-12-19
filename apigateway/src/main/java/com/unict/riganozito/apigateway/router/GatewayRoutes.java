@@ -15,7 +15,7 @@ public class GatewayRoutes {
                 .route(r ->
                         r.path("/vms/**")
                             .filters(f -> f
-                                    .rewritePath("/vms/?<segment>.*", "/${segment}")
+                                    .rewritePath("/vms(/?|)(.*)", "/$2")
                             )
                             .uri("http://localhost:8080"))
 
