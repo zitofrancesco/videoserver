@@ -15,9 +15,9 @@ public class GatewayRoutes {
                 .route(r ->
                         r.path("/vms/**")
                             .filters(f -> f
-                                    .rewritePath("/vms/(?.*)", "/${remains}")
+                                    .rewritePath("/vms/?<segment>.*", "/${segment}")
                             )
-                            .uri("http:/localhost:9090"))
+                            .uri("http://localhost:8080"))
 
                 .route(r ->
                         r.path("/videofiles")
