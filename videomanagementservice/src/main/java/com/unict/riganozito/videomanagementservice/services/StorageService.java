@@ -48,7 +48,7 @@ public class StorageService {
     }
 
     public Path getAbsolutePath(Video video) {
-        Path base = Paths.get(directory, "var", "video");
+        Path base = Paths.get(directory, "var", "video", video.getId().toString());
         File baseFile = base.toFile();
         if (!baseFile.exists())
             baseFile.mkdir();
