@@ -52,8 +52,7 @@ public class VideoController {
     }
 
     @PostMapping(path = "/", consumes = "application/JSON", produces = "application/JSON")
-    public @ResponseBody Video addVideo(@RequestBody Video video)
-            throws HttpStatusBadRequestException, HttpStatusUnauthorizedException {
+    public @ResponseBody Video addVideo(@RequestBody Video video) throws HttpStatusUnauthorizedException {
         User user = getUserAuthenticated();
         video.setUser(user);
         return videoService.addVideo(video);
@@ -61,13 +60,13 @@ public class VideoController {
 
     @PostMapping(path = "/{id}", produces = "application/JSON")
     public @ResponseBody Video uploadVideo(@PathVariable Integer id, @RequestParam("file") MultipartFile file)
-            throws HttpStatusBadRequestException, HttpStatusUnauthorizedException,
+            throws HttpStatusBadRequestException, HttpStatusUnauthorizedException, HttpStatusNotFoundException,
             HttpStatusInternalServerErrorException, HttpStatusServiceUnavailableException {
 
         // find video
         Video video = videoService.findById(id);
         if (video == null)
-            throw new HttpStatusBadRequestException();
+            throw new HttpStatusNotFoundException();
 
         // check data
         if (!storageService.checkVideo(file))
