@@ -17,6 +17,7 @@ public class VideoService {
     VideoRepository repository;
 
     public Video addVideo(Video video) {
+        video.setStatus("empty");
         return repository.save(video);
     }
 

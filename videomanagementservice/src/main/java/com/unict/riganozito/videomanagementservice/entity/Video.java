@@ -3,7 +3,8 @@ package com.unict.riganozito.videomanagementservice.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Video {
@@ -19,11 +20,11 @@ public class Video {
     private String author;
 
     @NotNull()
-    @Value("empty")
     private String status;
 
     @NotNull
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     public Integer getId() {
@@ -64,6 +65,12 @@ public class Video {
 
     public User getUser() {
         return user;
+    }
+
+    @Transient
+    @JsonProperty("username")
+    public String getUsername() {
+        return user.getUsername();
     }
 
 }

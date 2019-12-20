@@ -10,20 +10,20 @@ public class VideoProcessingServiceRequest implements Serializable {
      *
      */
     private static final long serialVersionUID = -8833788493221015270L;
-    private Integer videold;
+    private Integer videoId;
 
     public VideoProcessingServiceRequest() {
     }
 
     public VideoProcessingServiceRequest(Video video) {
-        videold = video.getId();
+        videoId = video.getId();
     }
 
     public Integer getVideold() {
-        return videold;
+        return videoId;
     }
 
-    public void setVideold(Integer videold) {
-        this.videold = videold;
+    public void setVideold(Integer videoId) {
+        this.videoId = videoId;
     }
 }

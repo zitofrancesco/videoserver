@@ -3,6 +3,8 @@ package com.unict.riganozito.videomanagementservice.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class User {
 
@@ -15,6 +17,7 @@ public class User {
     private String username;
 
     @NotNull()
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     public Integer getId() {

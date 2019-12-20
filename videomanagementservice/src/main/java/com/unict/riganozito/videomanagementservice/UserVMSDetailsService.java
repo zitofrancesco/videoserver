@@ -2,10 +2,14 @@ package com.unict.riganozito.videomanagementservice;
 
 import com.unict.riganozito.videomanagementservice.entity.*;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,8 +29,13 @@ public class UserVMSDetailsService implements UserDetailsService {
             return null;
         User user = userOpt.get();
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                getEncoder().encode(user.getPassword()), null);
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
+
+        UserDetails details = new org.springframework.security.core.userdetails.User(user.getUsername(),
+                getEncoder().encode(user.getPassword()), grantedAuthorities);
+
+        return details;
     }
 
     @Bean
