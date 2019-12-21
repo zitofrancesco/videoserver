@@ -8,12 +8,9 @@ import java.io.IOException;
 @Service
 public class ProcessingService {
 
-    @Value("${pathscript}")
-    public String pathscript;
-
     public boolean processVideo(String id) {
         ProcessBuilder builder = new ProcessBuilder("./script.sh", id);
-        builder.directory(new File(System.getProperty("user.dir").concat(pathscript)));
+        builder.directory(new File(System.getProperty("user.dir")));
         try{
             Process p = builder.start();
             p.waitFor();

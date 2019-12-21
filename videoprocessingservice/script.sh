@@ -12,4 +12,4 @@ ffmpeg -y -re -i ~/var/video/$1/sample_dash.mp4 \
   -map 0 \
   -c:a aac -strict -2 -b:a 128k \
   -use_timeline 1 -use_template 1 -window_size 5 -adaptation_sets "id=0,streams=v id=1,streams=a" \
-  -f dash ~/var/videofiles/$1/video.mpd
+  -f dash ~/var/video/$1/video.mpd
