@@ -6,10 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 import com.unict.riganozito.videomanagementservice.entity.Video;
 
@@ -17,7 +15,10 @@ import com.unict.riganozito.videomanagementservice.entity.Video;
 @Transactional
 public class StorageService {
 
-    @Value("${videoservice.storage:${user.home}}")
+    @Value("${user.home}")
+    public String home;
+
+    @Value("${VIDEOSERVICE.STORAGE.PATH}")
     public String directory;
 
     public String getExtensionOfFile(String fileName) {
@@ -39,7 +40,7 @@ public class StorageService {
 
         try {
             Path copyLocation = getAbsolutePath(video);
-            Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
+            file.transferTo(copyLocation);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,11 +49,11 @@ public class StorageService {
     }
 
     public Path getAbsolutePath(Video video) {
-        Path base = Paths.get(directory, "var", "video", video.getId().toString());
+        Path base = Paths.get(home, directory, video.getId().toString());
         File baseFile = base.toFile();
         if (!baseFile.exists())
-            baseFile.mkdir();
-        Path location = Paths.get(directory, "var", "video", video.getId().toString(), "video.mp4");
+            baseFile.mkdirs();
+        Path location = Paths.get(home, directory, video.getId().toString(), "video.mp4");
         return location;
     }
 
