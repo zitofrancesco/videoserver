@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class VideoProcessingService {
 
-    @Value("${videoservice.videoprocessingservice")
+    @Value("${videoservice.videoprocessingservice}")
     public String host;
 
     public boolean videoProcess(Video video) {
