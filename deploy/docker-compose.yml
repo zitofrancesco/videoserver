@@ -11,6 +11,8 @@ services:
       STORAGE_URI: file:///var/video
     volumes:
       - var:/var/video
+    networks:
+      - videoservicenet
 
   videomanagementservice:
     image: videomanagementservice:v1
@@ -27,6 +29,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: video
     volumes:
       - var:/var/video
+    networks:
+      - videoservicenet
 
   videoprocessingservice:
     image: videoprocessingservice:v1
@@ -35,7 +39,9 @@ services:
       - "9090:9090"
     volumes:
       - var:/var/video
-  
+    networks:
+      - videoservicenet  
+
   mysql:
     image: mysql:5.7
     restart: always
@@ -54,5 +60,8 @@ services:
 volumes:
   mysql-dev: 
   var:
+
+networks:
+  videoservicenet:
   
 
