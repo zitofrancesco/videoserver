@@ -1,38 +1,40 @@
 version: '3'
+
 services:
   apigateway:
-    image: apigateway:v1
+    image: apigateway-prod:v1
     restart: always
     ports:
       - "8080:8080"
     environment:
-      LOCALHOST_URL: http://localhost:8090
+      LOCALHOST_URL: http://videomanagementservice:8090
       STORAGE_URI: file:///var/video
-   volumes:
-     - var: ./var/video
+    volumes:
+      - var:/var/video
 
   videomanagementservice:
-    image: videomanagementservice:v1
+    image: videomanagementservice-prod:v1
     restart: always
     links:
       - mysql
     ports:
       - "8090:8090"
     environment:
-      VIDEOSERVICE_VIDEOPROCESSINGSERVICE: localhost:9090
-      SPRING_DATASOURCE_URL: jdbc:mysql://${MYSQL_HOST:localhost}:3306/videoservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      VIDEOSERVICE_STORAGE_PATH: /var/video
+      VIDEOSERVICE_VIDEOPROCESSINGSERVICE: videoprocessingservice:9090
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/videoservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: videouser
       SPRING_DATASOURCE_PASSWORD: video
     volumes:
-      - var: ./var/video
+      - var:/var/video
 
   videoprocessingservice:
-    image: videoprocessingservice:v1
+    image: videoprocessingservice-prod:v1
     restart: always
     ports:
       - "9090:9090"
     volumes:
-      - var: ./var/video
+      - var:/var/video
   
   mysql:
     image: mysql:5.7
@@ -40,12 +42,17 @@ services:
     ports:
       - "3307:3306"
     environment:
+      VIDEOSERVICE_STORAGE_PATH: /var/video
       MYSQL_DATABASE: videoservice
       MYSQL_USER: videouser
       MYSQL_PASSWORD: video
       MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql-dev:/var/lib/mysql
 
 
 volumes:
-  var: 
+  mysql-dev: 
+  var:
+  
 
