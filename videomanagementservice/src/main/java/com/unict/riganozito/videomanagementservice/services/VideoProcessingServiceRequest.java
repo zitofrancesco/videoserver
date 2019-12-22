@@ -5,11 +5,6 @@ import java.io.Serializable;
 import com.unict.riganozito.videomanagementservice.entity.Video;
 
 public class VideoProcessingServiceRequest implements Serializable {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = -8833788493221015270L;
     private Integer videoId;
 
     public VideoProcessingServiceRequest() {
@@ -19,11 +14,11 @@ public class VideoProcessingServiceRequest implements Serializable {
         videoId = video.getId();
     }
 
-    public Integer getVideold() {
+    public Integer getVideoId() {
         return videoId;
     }
 
-    public void setVideold(Integer videoId) {
+    public void setVideoId(Integer videoId) {
         this.videoId = videoId;
     }
 }
