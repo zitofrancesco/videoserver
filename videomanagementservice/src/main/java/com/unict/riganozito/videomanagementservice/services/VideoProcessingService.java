@@ -25,12 +25,12 @@ public class VideoProcessingService {
                     .contentType(MediaType.APPLICATION_JSON).body(obj);
 
             RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<String> responce = restTemplate.exchange(request, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(request, String.class);
 
-            String messageResult = responce.getBody();
+            String messageResult = response.getBody();
             System.out.println(messageResult);
 
-            if (responce.getStatusCode().is2xxSuccessful() || responce.getStatusCode().is1xxInformational())
+            if (response.getStatusCode().is2xxSuccessful() || response.getStatusCode().is1xxInformational())
                 return true;
             else
                 return false;
