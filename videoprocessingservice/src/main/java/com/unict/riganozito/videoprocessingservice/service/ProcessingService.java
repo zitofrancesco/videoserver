@@ -8,24 +8,31 @@ import java.io.IOException;
 @Service
 public class ProcessingService {
 
-    public Thread processVideoAsync(String id) {
+    public void processVideoAsync(Integer id) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                processVideo(id);
+                System.out.println("Process video with id " + id + " started");
+                if (processVideo(id)) {
+                    System.out.println("Video with id " + id + " is processed.");
+                } else {
+                    System.out.println("Video with id " + id + " isn't processed.");
+                }
             }
-        });
+        }, "ProcessThread " + id);
+        thread.setDaemon(true);
         thread.start();
-        return thread;
     }
 
-    public boolean processVideo(String id) {
-        ProcessBuilder builder = new ProcessBuilder("./script.sh", id);
-        builder.directory(new File(System.getProperty("user.dir")));
+    public boolean processVideo(Integer id) {
         try {
+            ProcessBuilder builder = new ProcessBuilder("./script.sh", id.toString());
+            builder.directory(new File(System.getProperty("user.dir")));
+
             Process p = builder.start();
             p.waitFor();
-        } catch (IOException | InterruptedException e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

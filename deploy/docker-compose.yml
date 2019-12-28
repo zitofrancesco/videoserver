@@ -42,7 +42,7 @@ services:
       - mysqlcontainer
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      VIDEOSERVICE_VIDEOPROCESSINGSERVICE: http://videoprocessingservice:9090/video/process
+      VIDEOSERVICE_VIDEOPROCESSINGSERVICE: http://videoprocessingservice:9090/videos/process
       VIDEOSERVICE_STORAGE: /var/video
       DATABASE_TYPE: mysql
       DATABASE_HOST: mysqlcontainer
