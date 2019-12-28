@@ -26,9 +26,7 @@ public class ProcessingController {
     public @ResponseBody String process(@RequestBody String video) throws IOException, HttpStatusBadRequestException {
         final JsonNode jsonNode = mapper.readTree(video);
         String id = jsonNode.findValue("videoId").toString();
-        if (processingService.processVideo(id))
-            return String.format("Video with id %s processed.", id);
-        else
-            throw new HttpStatusBadRequestException(String.format("Cannot process video with id %s.", id));
+        processingService.processVideoAsync(id);
+        return String.format("Video with id %s processed.", id);
     }
 }

@@ -5,9 +5,8 @@ services:
     image: mysql:latest
     restart: always
     ports:
-      - "3307:3306"
+      - "3306:3306"
     environment:
-      VIDEOSERVICE_STORAGE_PATH: /var/video
       MYSQL_DATABASE: videoservice
       MYSQL_USER: videouser
       MYSQL_PASSWORD: video
@@ -23,8 +22,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      LOCALHOST_URL: http://videomanagementservice:8090
-      STORAGE_URI: file:///var/video
+      SPRING_PROFILES_ACTIVE: prod
+      VIDEOSERVICE_VIDEOMANAGEMENTSERVICE: http://videomanagementservice:8090
+      VIDEOSERVICE_STORAGE: file:///var/video
     volumes:
       - var:/var/video
 
@@ -41,11 +41,15 @@ services:
     depends_on:
       - mysqlcontainer
     environment:
+      SPRING_PROFILES_ACTIVE: prod
       VIDEOSERVICE_VIDEOPROCESSINGSERVICE: http://videoprocessingservice:9090/video/process
       VIDEOSERVICE_STORAGE: /var/video
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqlcontainer:3306/videoservice?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: videouser
-      SPRING_DATASOURCE_PASSWORD: video
+      DATABASE_TYPE: mysql
+      DATABASE_HOST: mysqlcontainer
+      DATABASE_PORT: 3306
+      DATABASE_NAME: videoservice
+      DATABASE_USER: videouser
+      DATABASE_PASSWORD: video
     volumes:
       - var:/var/video
 
@@ -56,10 +60,11 @@ services:
     restart: always
     ports:
       - "9090:9090"
+    environment: 
+        SPRING_PROFILES_ACTIVE: prod
+        VIDEOSERVICE_STORAGE: /var/video
     volumes:
       - var:/var/video
-
-
 volumes:
   mysql-dev: 
   var:

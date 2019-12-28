@@ -8,30 +8,21 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Configuration
 @AutoConfigureAfter(EmbeddedDataSourceConfiguration.class)
 public class GatewayRoutes {
 
-    @Value(value = "${LOCALHOST_URL}")
-    private String url;
+        @Value(value = "${videoservice.videomanagementservice}")
+        private String url;
 
-    @Value(value = "${STORAGE_URI}")
-    private String storage;
+        @Value(value = "${videoservice.storage}")
+        private String storage;
 
-    @Bean
-    public RouteLocator customRouteLocator(RouteLocatorBuilder routeLocatorBuilder){
-        return routeLocatorBuilder.routes()
-                .route(r ->
-                        r.path("/vms/**")
-                            .filters(f -> f
-                                    .rewritePath("/vms(/?|)(.*)", "/$2")
-                            )
-                            .uri(url))
+        @Bean
+        public RouteLocator customRouteLocator(RouteLocatorBuilder routeLocatorBuilder) {
+                return routeLocatorBuilder.routes().route(
+                                r -> r.path("/vms/**").filters(f -> f.rewritePath("/vms(/?|)(.*)", "/$2")).uri(url))
 
-                .route(r ->
-                        r.path("/videofiles")
-                                .uri(storage))
-                .build();
-    }
+                                .route(r -> r.path("/videofiles").uri(storage)).build();
+        }
 }

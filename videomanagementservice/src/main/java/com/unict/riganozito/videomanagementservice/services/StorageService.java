@@ -15,10 +15,7 @@ import com.unict.riganozito.videomanagementservice.entity.Video;
 @Transactional
 public class StorageService {
 
-    @Value("${user.home}")
-    public String home;
-
-    @Value("${VIDEOSERVICE.STORAGE.PATH}")
+    @Value("${videoservice.storage}")
     public String directory;
 
     public String getExtensionOfFile(String fileName) {
@@ -49,11 +46,11 @@ public class StorageService {
     }
 
     public Path getAbsolutePath(Video video) {
-        Path base = Paths.get(home, directory, video.getId().toString());
+        Path base = Paths.get(directory, video.getId().toString());
         File baseFile = base.toFile();
         if (!baseFile.exists())
             baseFile.mkdirs();
-        Path location = Paths.get(home, directory, video.getId().toString(), "video.mp4");
+        Path location = Paths.get(directory, video.getId().toString(), "video.mp4");
         return location;
     }
 

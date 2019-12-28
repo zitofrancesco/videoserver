@@ -36,6 +36,7 @@ public class VideoProcessingService {
                 return false;
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             return false;
         }
     }
