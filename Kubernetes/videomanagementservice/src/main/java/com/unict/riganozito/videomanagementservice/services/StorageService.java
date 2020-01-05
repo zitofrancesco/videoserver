@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -34,15 +35,26 @@ public class StorageService {
     }
 
     public boolean storeVideo(Video video, MultipartFile file) {
-
         try {
-            Path copyLocation = getAbsolutePath(video);
-            file.transferTo(copyLocation);
+            Path location = getAbsolutePath(video);
+            file.transferTo(location);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean removeVideo(Video video) {
+        try {
+            Path location = getAbsolutePath(video);
+            File file = location.toFile();
+            if (file.exists())
+                return file.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public Path getAbsolutePath(Video video) {

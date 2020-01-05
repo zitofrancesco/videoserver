@@ -9,6 +9,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 public class Video {
 
+    public static final String STATE_WAITING_UPLOAD = "WaitingUpload";
+    public static final String STATE_UPLOADED = "Uploaded";
+    public static final String STATE_NOT_AVAILABLE = "NotAvailable";
+    public static final String STATE_AVAILABLE = "Available";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

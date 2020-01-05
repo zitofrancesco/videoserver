@@ -17,16 +17,21 @@ public class VideoService {
     VideoRepository repository;
 
     public Video addVideo(Video video) {
-        video.setStatus("empty");
         return repository.save(video);
     }
 
     public Video findById(Integer id) {
-        Optional<Video> video = repository.findById(id);
-        if (video.isPresent())
-            return video.get();
-        else
-            return null;
+        return findById(id, null);
+    }
+
+    public Video findById(Integer id, String status) {
+        Optional<Video> temp = repository.findById(id);
+        if (temp.isPresent()) {
+            Video video = temp.get();
+            if (status == null || video.getStatus().equals(status))
+                return video;
+        }
+        return null;
     }
 
     public Video updateStatus(Video video, String status) {
@@ -39,6 +44,16 @@ public class VideoService {
         Iterable<Video> videos = repository.findAll();
         for (Video video : videos) {
             list.add(video);
+        }
+        return list;
+    }
+
+    public List<Video> findAll(String status) {
+        ArrayList<Video> list = new ArrayList<Video>();
+        Iterable<Video> videos = repository.findAll();
+        for (Video video : videos) {
+            if (status == null || video.getStatus().equals(status))
+                list.add(video);
         }
         return list;
     }

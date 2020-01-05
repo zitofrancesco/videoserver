@@ -6,6 +6,7 @@ import com.unict.riganozito.videomanagementservice.services.*;
 import com.unict.riganozito.videomanagementservice.entity.User;
 import com.unict.riganozito.videomanagementservice.entity.Video;
 import com.unict.riganozito.videomanagementservice.exception.*;
+import com.unict.riganozito.videomanagementservice.kafka.KafkaProducer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,7 +39,7 @@ public class VideoController {
     UserService userService;
 
     @Autowired
-    VideoProcessingService videoProcessingService;
+    KafkaProducer kafkaProducer;
 
     private User getUserAuthenticated() throws HttpStatusUnauthorizedException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,6 +56,7 @@ public class VideoController {
     public @ResponseBody Video addVideo(@RequestBody Video video) throws HttpStatusUnauthorizedException {
         User user = getUserAuthenticated();
         video.setUser(user);
+        video.setStatus(Video.STATE_WAITING_UPLOAD);
         return videoService.addVideo(video);
     }
 
@@ -63,30 +65,35 @@ public class VideoController {
             throws HttpStatusBadRequestException, HttpStatusUnauthorizedException, HttpStatusNotFoundException,
             HttpStatusInternalServerErrorException, HttpStatusServiceUnavailableException {
 
+        User user = getUserAuthenticated();
+
         // find video
         Video video = videoService.findById(id);
         if (video == null)
             throw new HttpStatusNotFoundException();
 
-        // check data
-        if (!storageService.checkVideo(file))
+        // check state video
+        if (video.getStatus() != Video.STATE_WAITING_UPLOAD)
             throw new HttpStatusBadRequestException();
 
         // check user
-        User user = getUserAuthenticated();
         if (video.getUser().getId() != user.getId())
             throw new HttpStatusUnauthorizedException();
+
+        // check data
+        if (!storageService.checkVideo(file))
+            throw new HttpStatusBadRequestException();
 
         // store video
         if (!storageService.storeVideo(video, file))
             throw new HttpStatusInternalServerErrorException();
 
-        // send post request to video processing service
-        if (!videoProcessingService.videoProcess(video))
-            throw new HttpStatusServiceUnavailableException();
-
         // update status
-        video = videoService.updateStatus(video, "uploaded");
+        video = videoService.updateStatus(video, Video.STATE_UPLOADED);
+
+        // send post request to video processing service
+        kafkaProducer.sendVideoProcessRequest(video);
+
         return video;
     }
 
@@ -98,7 +105,7 @@ public class VideoController {
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
     public String getVideo(@PathVariable Integer id) throws HttpStatusNotFoundException {
-        Video video = videoService.findById(id);
+        Video video = videoService.findById(id, Video.STATE_AVAILABLE);
         if (video == null)
             throw new HttpStatusNotFoundException();
         String url = storageService.getRelativePath(video).toString();

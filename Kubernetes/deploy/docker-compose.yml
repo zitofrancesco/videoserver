@@ -14,6 +14,29 @@ services:
     volumes:
       - mysql-dev:/var/lib/mysql
 
+    zookeeper:
+      image: confluentinc/cp-zookeeper:5.1.0
+      container_name: zookeeper
+      restart: unless-stopped
+      ports: 
+        - "2181:2181"
+      environment:
+        ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka:5.1.0
+    container_name: kafka
+    restart: unless-stopped
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_DELETE_TOPIC_ENABLE: true
+
   apigateway:
     build:
       dockerfile: Dockerfile-dev
@@ -42,8 +65,11 @@ services:
       - mysqlcontainer
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      VIDEOSERVICE_VIDEOPROCESSINGSERVICE: http://videoprocessingservice:9090/videos/process
+      #VIDEOSERVICE_VIDEOPROCESSINGSERVICE: http://videoprocessingservice:9090/videos/process
       VIDEOSERVICE_STORAGE: /var/video
+      VIDEOSERVICE_KAFKA_VMS_TOPIC: videoservice-vms
+      VIDEOSERVICE_KAFKA_VPS_TOPIC: videoservice-vps
+      VIDEOSERVICE_KAFKA_HOSTNAME: http://kafka:9092
       DATABASE_TYPE: mysql
       DATABASE_HOST: mysqlcontainer
       DATABASE_PORT: 3306
@@ -63,6 +89,9 @@ services:
     environment: 
         SPRING_PROFILES_ACTIVE: prod
         VIDEOSERVICE_STORAGE: /var/video
+        VIDEOSERVICE_KAFKA_VMS_TOPIC: videoservice-vms
+        VIDEOSERVICE_KAFKA_VPS_TOPIC: videoservice-vps
+        VIDEOSERVICE_KAFKA_HOSTNAME: http://kafka:9092
     volumes:
       - var:/var/video
 volumes:
