@@ -3,7 +3,11 @@ package com.unict.riganozito.videoprocessingservice.kafka;
 import com.unict.riganozito.videoprocessingservice.service.ProcessingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+@Component
+@Transactional
 public class KafkaConsumer {
 
     @Autowired

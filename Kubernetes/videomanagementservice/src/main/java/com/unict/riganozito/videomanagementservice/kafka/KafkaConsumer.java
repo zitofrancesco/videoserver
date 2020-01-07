@@ -23,8 +23,8 @@ public class KafkaConsumer {
     StorageService storageService;
 
     /*
-     * Se il video è stato processato correttemente command=200|$ID altrimenti in
-     * presenza di fallimento command=500|$ID
+     * Se il video è stato processato correttemente command=processed|$ID altrimenti
+     * in presenza di fallimento command=processingFailed|$ID
      */
     @KafkaListener(topics = "${videoservice.kafka.vps.topic}")
     public void processVideoCommand(String command) {
@@ -32,7 +32,7 @@ public class KafkaConsumer {
         try {
             // fetch command
             String[] v = command.split("|", 2);
-            boolean isFailure = !v[0].equals("200");
+            boolean isFailure = !v[0].equals("processed");
             int videoId = Integer.parseInt(v[1]);
             Video video = videoService.findById(videoId);
             if (video == null)

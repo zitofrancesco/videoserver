@@ -2,10 +2,8 @@ package com.unict.riganozito.videoprocessingservice.service;
 
 import com.unict.riganozito.videoprocessingservice.kafka.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.File;
-import java.io.IOException;
 
 @Service
 public class ProcessingService {
@@ -26,6 +24,8 @@ public class ProcessingService {
     }
 
     public void processVideo(Integer id) {
+        boolean isError = false;
+
         try {
             ProcessBuilder builder = new ProcessBuilder("./script.sh", id.toString());
             builder.directory(new File(System.getProperty("user.dir")));
@@ -33,12 +33,20 @@ public class ProcessingService {
             Process p = builder.start();
             p.waitFor();
 
+            isError = p.exitValue() != 0;
         } catch (Exception e) {
             e.printStackTrace();
+            isError = true;
+        }
+
+        if (isError) {
             kafkaProducer.publishMessage(false, id);
             System.out.println("Process video with id " + id + " failed");
         }
-        kafkaProducer.publishMessage(true, id);
-        System.out.println("Process video with id " + id + " finished");
+        else {
+            kafkaProducer.publishMessage(true, id);
+            System.out.println("Process video with id " + id + " finished");
+        }
+       
     }
 }
