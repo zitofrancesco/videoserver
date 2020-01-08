@@ -13,7 +13,7 @@ public class KafkaConsumer {
     @Autowired
     ProcessingService processingService;
 
-    @KafkaListener(topics="${videoservice.kafka.vms.topic}")
+    @KafkaListener(topics="${videoservice.kafka.vms.topic}",groupId = "vms-consumer")
     public void consumeMessage(String content){
         String[] v = content.split("|", 2);
         int videoId = Integer.parseInt(v[1]);
