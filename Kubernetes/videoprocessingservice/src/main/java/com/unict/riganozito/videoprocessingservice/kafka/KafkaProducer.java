@@ -12,13 +12,13 @@ public class KafkaProducer {
     KafkaTemplate<String, String> kafkaTemplate;
 
     @Value("${videoservice.kafka.vps.topic}")
-    public String vmsTopic;
+    public String vpsTopic;
 
 
     public void publishMessage(boolean val, Integer id) {
         if (val) {
-            kafkaTemplate.send(vmsTopic, "processed|" + id.toString());
+            kafkaTemplate.send(vpsTopic, "processed|" + id.toString());
         } else
-            kafkaTemplate.send(vmsTopic, "processingFailed|" + id.toString());
+            kafkaTemplate.send(vpsTopic, "processingFailed|" + id.toString());
     }
 }
