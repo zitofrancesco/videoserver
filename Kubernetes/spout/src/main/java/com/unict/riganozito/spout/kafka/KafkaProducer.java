@@ -14,7 +14,7 @@ public class KafkaProducer {
     @Value("${videoservice.kafka.spark.topic}")
     public String topic;
 
-    public void publish(String str){
+    public void publish(String str) {
         kafkaTemplate.send(topic, str);
     }
 

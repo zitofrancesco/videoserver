@@ -21,21 +21,24 @@ public class PingController {
     private String mode;
 
     private String getSigned() {
-        return "\n"+profile + " " + mode;
+        return "\n" + profile + " " + mode;
     }
 
     @PostMapping(path = "/")
-    public @ResponseBody String postPing(String value) {
-        return "Pong " + value+ getSigned();
+    public @ResponseBody
+    String postPing(String value) {
+        return "Pong " + value + getSigned();
     }
 
     @GetMapping(path = "/")
-    public @ResponseBody String getPing() {
+    public @ResponseBody
+    String getPing() {
         return "Pong" + getSigned();
     }
 
     @PutMapping(path = "/")
-    public @ResponseBody String putPing() {
+    public @ResponseBody
+    String putPing() {
         return "Pong" + getSigned();
     }
 

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+
 import javax.transaction.Transactional;
 
 import com.unict.riganozito.videomanagementservice.entity.Video;
@@ -26,7 +27,7 @@ public class KafkaConsumer {
      * Se il video è stato processato correttemente command=processed|$ID altrimenti
      * in presenza di fallimento command=processingFailed|$ID
      */
-    @KafkaListener(topics = "${videoservice.kafka.vps.topic}",groupId = "vms-consumer")
+    @KafkaListener(topics = "${videoservice.kafka.vps.topic}", groupId = "vms-consumer")
     public void processVideoCommand(String command) {
         logger.info("received command = '{}'", command);
         try {

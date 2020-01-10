@@ -12,17 +12,17 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureAfter(EmbeddedDataSourceConfiguration.class)
 public class GatewayRoutes {
 
-        @Value(value = "${videoservice.videomanagementservice}")
-        private String url;
+    @Value(value = "${videoservice.videomanagementservice}")
+    private String url;
 
-        @Value(value = "${videoservice.storage}")
-        private String storage;
+    @Value(value = "${videoservice.storage}")
+    private String storage;
 
-        @Bean
-        public RouteLocator customRouteLocator(RouteLocatorBuilder routeLocatorBuilder) {
-                return routeLocatorBuilder.routes().route(
-                                r -> r.path("/vms/**").filters(f -> f.rewritePath("/vms(/?|)(.*)", "/$2")).uri(url))
+    @Bean
+    public RouteLocator customRouteLocator(RouteLocatorBuilder routeLocatorBuilder) {
+        return routeLocatorBuilder.routes().route(
+                r -> r.path("/vms/**").filters(f -> f.rewritePath("/vms(/?|)(.*)", "/$2")).uri(url))
 
-                                .route(r -> r.path("/videofiles").uri(storage)).build();
-        }
+                .route(r -> r.path("/videofiles").uri(storage)).build();
+    }
 }

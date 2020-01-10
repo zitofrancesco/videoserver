@@ -5,7 +5,7 @@ metadata:
   name: videoservice-vps
 spec:
   ports:
-  - port: 8090
+    - port: 8090
   selector:
     app:  videoservice-vps
 ---
@@ -23,18 +23,18 @@ spec:
         app: videoservice-vps
     spec:
       containers:
-      - name: videoservice-vps
-        image: videoservice-vps:latest
-        ports:
-        - containerPort: 9090
-        envFrom:
-        - configMapRef:
-            name: common-env-file
-        volumeMounts:
-          - mountPath: /var/video
-            name: videoservice-volume
+        - name: videoservice-vps
+          image: videoservice-vps:latest
+          ports:
+            - containerPort: 9090
+          envFrom:
+            - configMapRef:
+                name: common-env-file
+          volumeMounts:
+            - mountPath: /var/video
+              name: videoservice-volume
       volumes:
-      - name: videoservice-volume
-        hostPath:
+        - name: videoservice-volume
+          hostPath:
             path: /var/video
             type: DirectoryOrCreate

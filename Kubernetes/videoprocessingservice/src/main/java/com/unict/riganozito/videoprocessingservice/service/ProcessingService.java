@@ -3,6 +3,7 @@ package com.unict.riganozito.videoprocessingservice.service;
 import com.unict.riganozito.videoprocessingservice.kafka.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.io.File;
 
 @Service
@@ -42,11 +43,10 @@ public class ProcessingService {
         if (isError) {
             kafkaProducer.publishMessage(false, id);
             System.out.println("Process video with id " + id + " failed");
-        }
-        else {
+        } else {
             kafkaProducer.publishMessage(true, id);
             System.out.println("Process video with id " + id + " finished");
         }
-       
+
     }
 }

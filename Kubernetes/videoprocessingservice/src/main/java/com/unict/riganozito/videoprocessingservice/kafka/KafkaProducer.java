@@ -9,17 +9,16 @@ import org.springframework.stereotype.Service;
 public class KafkaProducer {
 
     @Autowired
-    KafkaTemplate<String,String> kafkaTemplate;
+    KafkaTemplate<String, String> kafkaTemplate;
 
     @Value("${videoservice.kafka.vps.topic}")
     public String vmsTopic;
 
 
-    public void publishMessage(boolean val, Integer id){
+    public void publishMessage(boolean val, Integer id) {
         if (val) {
             kafkaTemplate.send(vmsTopic, "processed|" + id.toString());
-        }
-        else
-            kafkaTemplate.send(vmsTopic, "processingFailed|"+id.toString());
+        } else
+            kafkaTemplate.send(vmsTopic, "processingFailed|" + id.toString());
     }
 }

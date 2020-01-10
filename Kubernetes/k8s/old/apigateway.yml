@@ -5,7 +5,7 @@ metadata:
   name: videoservice-apigatawey
 spec:
   ports:
-  - port: 8080
+    - port: 8080
   selector:
     app:  videoservice-apigatawey
 ---
@@ -23,19 +23,19 @@ spec:
         app: videoservice-apigatawey
     spec:
       containers:
-      - name: videoservice-apigatawey
-        image: apigatawey:latest
-        ports:
-        - containerPort: 8080
-        envFrom:
-        - configMapRef:
-            name: common-env-file
-        volumeMounts:
-          - mountPath: /var/video
-            name: videoservice-volume
+        - name: videoservice-apigatawey
+          image: apigatawey:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: common-env-file
+          volumeMounts:
+            - mountPath: /var/video
+              name: videoservice-volume
       volumes:
-      - name: videoservice-volume
-        hostPath:
+        - name: videoservice-volume
+          hostPath:
             path: /var/video
             type: DirectoryOrCreate
 

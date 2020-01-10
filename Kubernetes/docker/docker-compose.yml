@@ -18,7 +18,7 @@ services:
       image: confluentinc/cp-zookeeper:5.1.0
       container_name: zookeeper
       restart: unless-stopped
-      ports: 
+      ports:
         - "2181:2181"
       environment:
         ZOOKEEPER_CLIENT_PORT: 2181
@@ -86,15 +86,15 @@ services:
     restart: always
     ports:
       - "9090:9090"
-    environment: 
-        SPRING_PROFILES_ACTIVE: prod
-        VIDEOSERVICE_STORAGE: /var/video
-        VIDEOSERVICE_KAFKA_VMS_TOPIC: videoservice-vms
-        VIDEOSERVICE_KAFKA_VPS_TOPIC: videoservice-vps
-        VIDEOSERVICE_KAFKA_HOSTNAME: http://kafka:9092
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      VIDEOSERVICE_STORAGE: /var/video
+      VIDEOSERVICE_KAFKA_VMS_TOPIC: videoservice-vms
+      VIDEOSERVICE_KAFKA_VPS_TOPIC: videoservice-vps
+      VIDEOSERVICE_KAFKA_HOSTNAME: http://kafka:9092
     volumes:
       - var:/var/video
 volumes:
-  mysql-dev: 
+  mysql-dev:
   var:
 

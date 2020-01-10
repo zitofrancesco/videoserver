@@ -20,7 +20,8 @@ public class UserController {
     UserService userService;
 
     @PostMapping(path = "/", consumes = "application/JSON", produces = "application/JSON")
-    public @ResponseBody User addUser(@RequestBody User user) {
+    public @ResponseBody
+    User addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
 }

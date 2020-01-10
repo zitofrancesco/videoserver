@@ -4,38 +4,38 @@ metadata:
   name: videoservice-pod
 spec:
   containers:
-  - name: videoservice-apigatawey 
-    image: apigatawey:latest
-    ports:
-    - containerPort: 8080
-    envFrom:
-    - configMapRef:
-      name: common-env-file
-    volumeMounts:
-    - mountPath: /var/video
-      name: videoservice-volume
-  - name: videoservice-vms
-    image: videoservice-vms:latest
-    ports:
-    - containerPort: 8090
-    envFrom:
-    - configMapRef:
-        name: common-env-file
-    volumeMounts:
-      - mountPath: /var/video
-        name: videoservice-volume
-  - name: videoservice-vps
-    image: videoservice-vps:latest
-    ports:
-    - containerPort: 9090
-    envFrom:
-    - configMapRef:
-        name: common-env-file
-    volumeMounts:
-      - mountPath: /var/video
-        name: videoservice-volume
+    - name: videoservice-apigatawey
+      image: apigatawey:latest
+      ports:
+        - containerPort: 8080
+      envFrom:
+        - configMapRef:
+          name: common-env-file
+      volumeMounts:
+        - mountPath: /var/video
+          name: videoservice-volume
+    - name: videoservice-vms
+      image: videoservice-vms:latest
+      ports:
+        - containerPort: 8090
+      envFrom:
+        - configMapRef:
+            name: common-env-file
+      volumeMounts:
+        - mountPath: /var/video
+          name: videoservice-volume
+    - name: videoservice-vps
+      image: videoservice-vps:latest
+      ports:
+        - containerPort: 9090
+      envFrom:
+        - configMapRef:
+            name: common-env-file
+      volumeMounts:
+        - mountPath: /var/video
+          name: videoservice-volume
   volumes:
-  - name: videoservice-volume
-    hostPath:
+    - name: videoservice-volume
+      hostPath:
         path: /var/video
         type: DirectoryOrCreate
