@@ -1,30 +1,38 @@
----  
-apiVersion: apps/v1
-kind: Deployment                    # Type of the kubernetes resource
+apiVersion: v1
+kind: Service
 metadata:
-  name: vs-mysql 
+  name: mysql
 spec:
-  strategy:
-    type: Recreate
+  ports:
+  - port: 3306
   selector:
-    matchLabels:                    # This deployment applies to the Pods matching the specified labels
+    app: mysql
+---
+apiVersion: apps/v1beta2
+kind: Deployment                   
+metadata:
+  name: mysql 
+spec:
+  selector:
+    matchLabels:         
       app: mysql
-  template:                         # Template for the Pods in this deployment
+  template:                         
     metadata:
-    spec:                           # The spec for the containers that will be run inside the Pods in this deployment
+      labels:
+        app: mysql
+    spec:    
       containers:
-      - image: mysql:5.6            # The container image
-        name: mysql
-        envFrom:
-            - configMapRef:
-                name: videoservice-config/mysql 
+      - name: mysql
+        image: mysql:5.6           
         ports:
-        - containerPort: 3306        # The port that the container exposes       
-          name: mysql
+        - containerPort: 3306          
         volumeMounts:
         - name: mysql-persistent-storage  # This name should match the name specified in `volumes.name`
           mountPath: /var/lib/mysql
-      volumes:                       # A PersistentVolume is mounted as a volume to the Pod  
+        envFrom:
+            - configMapRef:
+                name: videoservice-config.mysql.properties
+      volumes:             
       - name: mysql-persistent-storage
         hostPath:
           path: /mnt/data

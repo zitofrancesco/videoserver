@@ -14,7 +14,7 @@ spec:
   selector:
     app: kafkaa
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
   name: kafkaa
@@ -41,7 +41,7 @@ spec:
               name: jmx
           envFrom:
             - configMapRef:
-                name: videoservice-config/kafka.properties
+                name: videoservice-config.kafka.properties
 ---
 apiVersion: v1
 kind: Service
