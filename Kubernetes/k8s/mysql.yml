@@ -1,68 +1,31 @@
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mysql-pv-volume
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 20Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pv-claim
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 20Gi
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-spec:
-  ports:
-    - port: 3306
-  selector:
-    app: mysql
-  clusterIP: None
----
+---  
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment                    # Type of the kubernetes resource
 metadata:
-  name: mysql
+  name: vs-mysql 
 spec:
-  selector:
-    matchLabels:
-      app: mysql
   strategy:
     type: Recreate
-  template:
+  selector:
+    matchLabels:                    # This deployment applies to the Pods matching the specified labels
+      app: mysql
+  template:                         # Template for the Pods in this deployment
     metadata:
-      labels:
-        app: mysql
-    spec:
+    spec:                           # The spec for the containers that will be run inside the Pods in this deployment
       containers:
-        - image: mysql:5.6
-          name: mysql
-          envFrom:
+      - image: mysql:5.6            # The container image
+        name: mysql
+        envFrom:
             - configMapRef:
-                - mysql-env-file
-          ports:
-            - containerPort: 3306
-              name: mysql
-          volumeMounts:
-            - name: mysql-persistent-storage
-              mountPath: /var/lib/mysql
-      volumes:
-        - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: mysql-pv-claim
+                name: videoservice-config/mysql 
+        ports:
+        - containerPort: 3306        # The port that the container exposes       
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage  # This name should match the name specified in `volumes.name`
+          mountPath: /var/lib/mysql
+      volumes:                       # A PersistentVolume is mounted as a volume to the Pod  
+      - name: mysql-persistent-storage
+        hostPath:
+          path: /mnt/data
+          type: DirectoryOrCreate

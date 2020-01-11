@@ -41,7 +41,7 @@ spec:
               name: jmx
           envFrom:
             - configMapRef:
-                - kafka-env-file
+                name: videoservice-config/kafka.properties
 ---
 apiVersion: v1
 kind: Service
