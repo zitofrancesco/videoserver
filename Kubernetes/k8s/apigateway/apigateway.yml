@@ -28,7 +28,7 @@ spec:
           - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: videoservice-config.apigateway.properties
+                name: videoservice-apigateway
           volumeMounts:
           - mountPath: /var/video
             name: videoservice-volume

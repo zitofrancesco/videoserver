@@ -31,7 +31,7 @@ spec:
           mountPath: /var/lib/mysql
         envFrom:
             - configMapRef:
-                name: videoservice-config.mysql.properties
+                name: videoservice-mysql
       volumes:             
       - name: mysql-persistent-storage
         hostPath:
