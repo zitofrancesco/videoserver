@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,33 +8,36 @@ spec:
   - port: 3306
   selector:
     app: mysql
+  clusterIP: None
 ---
-apiVersion: apps/v1beta2
-kind: Deployment                   
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
 metadata:
-  name: mysql 
+  name: mysql
 spec:
   selector:
-    matchLabels:         
+    matchLabels:
       app: mysql
-  template:                         
+  strategy:
+    type: Recreate
+  template:
     metadata:
       labels:
         app: mysql
-    spec:    
+    spec:
       containers:
-      - name: mysql
-        image: mysql:5.6           
+      - image: mysql:5.6
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
         ports:
-        - containerPort: 3306          
+        - containerPort: 3306
+          name: mysql
         volumeMounts:
-        - name: mysql-persistent-storage  # This name should match the name specified in `volumes.name`
+        - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
-        envFrom:
-            - configMapRef:
-                name: videoservice-mysql
-      volumes:             
+      volumes:
       - name: mysql-persistent-storage
-        hostPath:
-          path: /mnt/data
-          type: DirectoryOrCreate
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim

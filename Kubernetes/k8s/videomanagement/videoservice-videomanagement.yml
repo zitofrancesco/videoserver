@@ -1,24 +1,14 @@
 apiVersion: v1
 data:
-  videomanagement.properties: |+
-    SPRING_PROFILES_ACTIVE:prod
-    VIDEOSERVICE_VIDEOMANAGEMENTSERVICE:http://videomanagementservice:8090
-    VIDEOSERVICE_STORAGE:file:///var/video
-    DATABASE_TYPE:mysql
-    DATABASE_HOST:mysqlcontainer
-    DATABASE_PORT:3306
-    DATABASE_NAME:videoservice
-    DATABASE_USER:videouser
-    DATABASE_PASSWORD:video
-
+  videomanagement.properties: "SPRING_PROFILES_ACTIVE:prod\r\nVIDEOSERVICE_VIDEOMANAGEMENTSERVICE:http://videomanagementservice:8090\r\nVIDEOSERVICE_STORAGE:file:///var/video\r\nDATABASE_TYPE:mysql\r\nDATABASE_HOST:mysqlcontainer\r\nDATABASE_PORT:3306\r\nDATABASE_NAME:videoservice\r\nDATABASE_USER:videouser\r\nDATABASE_PASSWORD:video\r\n\r\n"
 kind: ConfigMap
 metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
-      {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-videomanagementservice","creationTimestamp":null},"data":{"videomanagement.properties":"SPRING_PROFILES_ACTIVE:prod\nVIDEOSERVICE_VIDEOMANAGEMENTSERVICE:http://videomanagementservice:8090\nVIDEOSERVICE_STORAGE:file:///var/video\nDATABASE_TYPE:mysql\nDATABASE_HOST:mysqlcontainer\nDATABASE_PORT:3306\nDATABASE_NAME:videoservice\nDATABASE_USER:videouser\nDATABASE_PASSWORD:video\n\n"}}
-  creationTimestamp: 2020-01-12T08:54:07Z
+      {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-videomanagementservice","creationTimestamp":null},"data":{"videomanagement.properties":"SPRING_PROFILES_ACTIVE:prod\r\nVIDEOSERVICE_VIDEOMANAGEMENTSERVICE:http://videomanagementservice:8090\r\nVIDEOSERVICE_STORAGE:file:///var/video\r\nDATABASE_TYPE:mysql\r\nDATABASE_HOST:mysqlcontainer\r\nDATABASE_PORT:3306\r\nDATABASE_NAME:videoservice\r\nDATABASE_USER:videouser\r\nDATABASE_PASSWORD:video\r\n\r\n"}}
+  creationTimestamp: "2020-01-12T09:43:15Z"
   name: videoservice-videomanagementservice
   namespace: default
-  resourceVersion: "123"
+  resourceVersion: "36614"
   selfLink: /api/v1/namespaces/default/configmaps/videoservice-videomanagementservice
-  uid: 177424d6-3519-11ea-8e49-080027fd4e3d
+  uid: f4b1caaf-351f-11ea-adce-00155d01061b

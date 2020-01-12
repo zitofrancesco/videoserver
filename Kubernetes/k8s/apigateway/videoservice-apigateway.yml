@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  apigateway.properties: "SPRING_PROFILES_ACTIVE: prod\r\nVIDEOSERVICE_VIDEOMANAGEMENTSERVICE:
+    http://videomanagementservice:8090\r\nVIDEOSERVICE_STORAGE: file:///var/video\r\n"
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-apigateway","creationTimestamp":null},"data":{"apigateway.properties":"SPRING_PROFILES_ACTIVE: prod\r\nVIDEOSERVICE_VIDEOMANAGEMENTSERVICE: http://videomanagementservice:8090\r\nVIDEOSERVICE_STORAGE: file:///var/video\r\n"}}
+  creationTimestamp: "2020-01-12T09:43:14Z"
+  name: videoservice-apigateway
+  namespace: default
+  resourceVersion: "36613"
+  selfLink: /api/v1/namespaces/default/configmaps/videoservice-apigateway
+  uid: f462cd42-351f-11ea-adce-00155d01061b

@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: videoservice-apigatawey
-          image: apigatawey:latest
+          image: videoservice/apigateway:latest
           ports:
             - containerPort: 8080
           envFrom:
