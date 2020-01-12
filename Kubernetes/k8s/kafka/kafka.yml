@@ -15,7 +15,7 @@ spec:
   selector:
     app: kafkaa
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
   name: kafkaa
@@ -89,6 +89,6 @@ spec:
         name: zookeeper
         ports:
         - containerPort: 2181
-        envFrom:
-          - configMapRef:
-              name: videoservice-kafka
+        env:
+        - name: ZOO_MY_ID
+          value: "1"

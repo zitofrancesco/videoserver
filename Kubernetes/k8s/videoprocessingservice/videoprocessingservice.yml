@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: videoprocessingservice
+spec:
+  ports:
+  - port: 9090
+  selector:
+    app: videoservice
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: videoprocessingservice
+spec:
+  selector:
+    matchLabels:         
+      app: videoservice
+  template:
+    metadata:
+      labels:
+        app: videoservice
+    spec:
+      containers:
+        - name: videoprocessingservice
+          image: videoprocessingservice:latest
+          imagePullPolicy: Never
+          ports:
+          - containerPort: 9090
+          envFrom:
+            - configMapRef:
+                name: videoservice-videoprocessingservice
