@@ -17,7 +17,7 @@ object App {
 
   /* Configure Kafka */
   val kafkaParams = Map[String, Object](
-    "bootstrap.servers" -> "localhost:9006",
+    "bootstrap.servers" -> "PLAINTEXT://<localhost>:9092",
     "key.deserializer" -> classOf[StringDeserializer],
     "value.deserializer" -> classOf[StringDeserializer],
     "group.id" -> "spark",

@@ -45,7 +45,7 @@ public class DataRetrieveService {
             recs.forEach((n) -> {
                 String message = n.getRequest() + " #" + n.getNumber().toString() + " @" + n.getTime().toString();
                 System.out.println(message);
-                //kafkaProducer.publish(message);
+                kafkaProducer.publish(message);
             });
         }
         else{
@@ -57,7 +57,7 @@ public class DataRetrieveService {
                             Double time = n.getTime() - m.getTime();
                             String message = n.getRequest() + " #" + number.toString() + " @" + time.toString();
                             System.out.println(message);
-                            //kafkaProducer.publish(message);
+                            kafkaProducer.publish(message);
                         }
                     }
                 });

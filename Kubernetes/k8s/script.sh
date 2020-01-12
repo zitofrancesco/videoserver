@@ -10,6 +10,9 @@ kubectl get configmap videoservice-videomanagementservice -o yaml > videomanagem
 kubectl create configmap videoservice-videoprocessingservice --from-file=./videoprocessingservice/videoprocessing.properties --save-config
 kubectl get configmap videoservice-videoprocessingservice -o yaml > videoprocessingservice/videoservice-videoprocessing.yml
 
+kubectl create configmap videoservice-spout --from-file=./spout/spout.properties --save-config
+kubectl get configmap videoservice-spout -o yaml > spout/videoservice-spout.yml
+
 
 kubectl create -f ./kafka/kafka.yml
 
@@ -21,3 +24,5 @@ kubectl create -f ./apigateway/apigateway.yml
 kubectl create -f ./videoprocessingservice/videoprocessingservice.yml
 
 kubectl create -f ./videomanagementservice/videomanagementservice.yml
+
+kubectl create -f ./spout/spout.yml

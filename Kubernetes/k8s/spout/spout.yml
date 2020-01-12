@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spout
+spec:
+  ports:
+  - port: 9020
+  selector:
+    app: videoservice
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: spout
+spec:
+  selector:
+    matchLabels:         
+      app: videoservice
+  template:
+    metadata:
+      labels:
+        app: videoservice
+    spec:
+      containers:
+        - name: spout
+          image: spout:v1
+          imagePullPolicy: Never
+          ports:
+          - containerPort: 9020
+          envFrom:
+            - configMapRef:
+                name: videoservice-spout
