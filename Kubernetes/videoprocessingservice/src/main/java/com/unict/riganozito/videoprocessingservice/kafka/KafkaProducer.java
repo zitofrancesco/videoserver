@@ -11,7 +11,7 @@ public class KafkaProducer {
     @Autowired
     KafkaTemplate<String, String> kafkaTemplate;
 
-    @Value("${videoservice.kafka.producer.topic}")
+    @Value("${videoservice.kafka.producer-topic}")
     public String topic;
 
 

@@ -13,8 +13,8 @@ public class ProcessConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/videos/process").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/ping").permitAll()
+                .anyRequest().denyAll()
                 .and()
                 .csrf().disable();
     }
