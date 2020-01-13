@@ -1,4 +1,4 @@
-package samples
+package com.unict.riganozito
 
 import org.junit._
 import Assert._

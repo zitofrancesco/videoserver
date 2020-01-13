@@ -14,7 +14,9 @@ kubectl create configmap videoservice-spout --from-file=./spout/spout.properties
 kubectl get configmap videoservice-spout -o yaml > spout/videoservice-spout.yml
 
 
-kubectl create -f ./kafka/kafka.yml
+kubectl create -f ./kafka/zookeeper.yml
+kubectl create -f ./kafka/kafka-service.yml
+kubectl create -f ./kafka/kafka-broker.yml
 
 kubectl create -f ./mysql/mysql-pv.yml
 kubectl create -f ./mysql/mysql.yml
