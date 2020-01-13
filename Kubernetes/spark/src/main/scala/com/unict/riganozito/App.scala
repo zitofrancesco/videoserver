@@ -1,5 +1,9 @@
 package com.unict.riganozito
 
+import com.bot4s.telegram.api.RequestHandler
+import com.bot4s.telegram.clients.ScalajHttpClient
+import com.bot4s.telegram.future.TelegramBot
+import com.bot4s.telegram.methods.SendMessage
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
@@ -8,8 +12,16 @@ import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 import scala.collection.mutable.Queue
+import scala.concurrent.Future
+
+class VideoServiceBot(val token: String) extends TelegramBot{
+  override val client: RequestHandler[Future] = new ScalajHttpClient(token)
+}
 
 object App {
+
+  val bot = new VideoServiceBot("1014975967:AAGqaoFLRlUj2-RIcqhcqZjK0U-hVJgIZF0")
+  val eol = bot.run()
 
   val conf = new SparkConf().setAppName("spark-kafka")
   val ssc = new StreamingContext(conf, Seconds(30))
@@ -68,10 +80,11 @@ object App {
 
   if(perc_time>20){
     if(perc_req>20){
-      println("Incremento del tempo medio di risposta pari a %f. Registrato anche un incremento medio del numero di richieste pari a %f", perc_time, perc_req)
+      bot.client.apply(SendMessage("-1001250525098", "Incremento del tempo medio di risposta pari a " + perc_time +". Registrato anche un incremento medio del numero di richieste pari a "+perc_req))
     }
     else{
-      println("Incremento del tempo medio di risposta pari a %f. Non è stato registrato un incremento considerevole nel numero medio di richieste", perc_time)
+      bot.client.apply(SendMessage("-1001250525098", "Incremento del tempo medio di risposta pari a " + perc_time + ". Non è stato registrato un incremento considerevole nel numero medio di richieste"))
+
     }
   }
 

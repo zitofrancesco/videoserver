@@ -33,6 +33,11 @@
       <artifactId>spark-core_2.12</artifactId>
       <version>2.4.3</version>
     </dependency>
+    <dependency>
+      <groupId>com.bot4s</groupId>
+      <artifactId>telegram-core_2.11</artifactId>
+      <version>4.4.0-RC2</version>
+    </dependency>
   </dependencies>
 
   <build>
