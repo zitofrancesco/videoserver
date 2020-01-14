@@ -15,7 +15,7 @@ public class KafkaProducer {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    @Value("${videoservice.kafka.vms.topic}")
+    @Value("${videoservice.kafka.producer-topic}")
     public String vmsTopic;
 
     public ListenableFuture<SendResult<String, String>> sendVideoProcessRequest(Video video) {

@@ -48,45 +48,45 @@ object App {
 
   /* Calculate the average of the number of requests */
   val lines = stream.map(_.value)
-  val flat = lines.flatMap(line => line.split(" ")).filter(number => number.contains("#")).map(element => (element.replace("#", "").toDouble, 1))
-  val avg = flat.reduce((x, y) => (x._1 + y._1, x._2 + y._2))
 
+  val flat = lines.flatMap(line => line.split(" ")).filter(number => number.contains("#")).map(element => (element.replace("#", "").toDouble, 1))
+  val r_avg = flat.reduce((x, y) => (x._1 + y._1, x._2 + y._2)).map { case (sum, count) => sum / (30 * count) }
 
   /* Calculate the average of the response time */
   val lines1 = stream.map(_.value)
   val flat1 = lines1.flatMap(line => line.split(" ")).filter(number => number.contains("@")).map(element => (element.replace("@", "").toDouble, 1))
-  val avg1 = flat1.reduce((x, y) => (x._1 + y._1, x._2 + y._2))
-
-
-  // Ricavo i valori
-  val r_avg = avg._1.floatValue/(30*avg._2.intValue)
-  val t_avg = avg1._1.floatValue/(30*avg1._2.intValue)
+  val t_avg = flat1.reduce((x, y) => (x._1 + y._1, x._2 + y._2)).map { case (sum, count) => sum / (30 * count) }
 
   ssc.start()
   ssc.awaitTermination()
 
   var global_req_sum, global_time_sum, global_req_avg, global_time_avg = 0.0
 
-  for(i <- 0 to avg_req.length){
-    global_req_sum += avg_req(i-1)
-    global_time_sum += avg_time(i-1)
+
+  /*
+  if (avg_req.length != 0) {
+    for (i <- 0 to (avg_req.length - 1)) {
+      global_req_sum += avg_req(i)
+      global_time_sum += avg_time(i)
+    }
+
+    global_req_avg = global_req_sum / avg_req.length
+    global_time_avg = global_time_sum / avg_time.length
+
+    var perc_time = ((t_avg - global_time_avg) / global_time_avg) * 100
+    var perc_req = ((r_avg - global_req_avg) / global_req_avg) * 100
+
+    if (perc_time > 20) {
+      if (perc_req > 20) {
+        bot.client.apply(SendMessage("-1001250525098", "Incremento del tempo medio di risposta pari a " + perc_time + ". Registrato anche un incremento medio del numero di richieste pari a " + perc_req))
+      }
+      else {
+        bot.client.apply(SendMessage("-1001250525098", "Incremento del tempo medio di risposta pari a " + perc_time + ". Non è stato registrato un incremento considerevole nel numero medio di richieste"))
+
+      }
+    }
   }
 
-  global_req_avg = global_req_sum/avg_req.length
-  global_time_avg = global_time_sum/avg_time.length
-
-  var perc_time = ((t_avg-global_time_avg)/global_time_avg)*100
-  var perc_req = ((r_avg-global_req_avg)/global_req_avg)*100
-
-  if(perc_time>20){
-    if(perc_req>20){
-      bot.client.apply(SendMessage("-1001250525098", "Incremento del tempo medio di risposta pari a " + perc_time +". Registrato anche un incremento medio del numero di richieste pari a "+perc_req))
-    }
-    else{
-      bot.client.apply(SendMessage("-1001250525098", "Incremento del tempo medio di risposta pari a " + perc_time + ". Non è stato registrato un incremento considerevole nel numero medio di richieste"))
-
-    }
-  }
 
   if(avg_req.length==10){
     avg_req.dequeue()
@@ -94,5 +94,5 @@ object App {
   }
   avg_req += r_avg
   avg_time += t_avg
-
+*/
 }
