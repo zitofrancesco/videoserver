@@ -7,6 +7,8 @@ import com.unict.riganozito.videomanagementservice.entity.User;
 import com.unict.riganozito.videomanagementservice.entity.Video;
 import com.unict.riganozito.videomanagementservice.exception.*;
 import com.unict.riganozito.videomanagementservice.kafka.KafkaProducer;
+import com.unict.riganozito.videomanagementservice.saga.Saga;
+import com.unict.riganozito.videomanagementservice.saga.SagaOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,8 +55,7 @@ public class VideoController {
     }
 
     @PostMapping(path = "/", consumes = "application/JSON", produces = "application/JSON")
-    public @ResponseBody
-    Video addVideo(@RequestBody Video video) throws HttpStatusUnauthorizedException {
+    public @ResponseBody Video addVideo(@RequestBody Video video) throws HttpStatusUnauthorizedException {
         User user = getUserAuthenticated();
         video.setUser(user);
         video.setStatus(Video.STATE_WAITING_UPLOAD);
@@ -62,46 +63,82 @@ public class VideoController {
     }
 
     @PostMapping(path = "/{id}", produces = "application/JSON")
-    public @ResponseBody
-    Video uploadVideo(@PathVariable Integer id, @RequestParam("file") MultipartFile file)
-            throws HttpStatusBadRequestException, HttpStatusUnauthorizedException, HttpStatusNotFoundException,
-            HttpStatusInternalServerErrorException, HttpStatusServiceUnavailableException {
+    public @ResponseBody Video uploadVideo(@PathVariable Integer id, @RequestParam("file") MultipartFile file)
+            throws Exception {
 
         User user = getUserAuthenticated();
 
-        // find video
-        Video video = videoService.findById(id);
-        if (video == null)
-            throw new HttpStatusNotFoundException();
+        Saga sagaBuilder = new Saga();
+        sagaBuilder.addTransaction(new SagaOperation() {
+            @Override
+            public void action(Saga saga) throws Exception {
+                // find video
+                Video video = videoService.findById(id);
+                if (video == null)
+                    throw new HttpStatusNotFoundException();
+                // check state video
+                if (video.getStatus() != Video.STATE_WAITING_UPLOAD)
+                    throw new HttpStatusBadRequestException();
+                // check user
+                if (video.getUser().getId() != user.getId())
+                    throw new HttpStatusUnauthorizedException();
+                // check data
+                if (!storageService.checkVideo(file))
+                    throw new HttpStatusBadRequestException();
+                saga.setData("video", video);
+            }
+        });
 
-        // check state video
-        if (video.getStatus() != Video.STATE_WAITING_UPLOAD)
-            throw new HttpStatusBadRequestException();
+        sagaBuilder.addTransaction(new SagaOperation() {
+            @Override
+            public void action(Saga saga) throws Exception {
+                // store video
+                Video video = (Video) saga.getData("video");
+                if (!storageService.storeVideo(video, file))
+                    throw new HttpStatusInternalServerErrorException();
+            }
+        }, new SagaOperation() {// transazione di compensazione
+            @Override
+            public void action(Saga saga) throws Exception {
+                // delete video
+                Video video = (Video) saga.getData("video");
+                storageService.removeVideo(video);
+            }
+        });
 
-        // check user
-        if (video.getUser().getId() != user.getId())
-            throw new HttpStatusUnauthorizedException();
+        sagaBuilder.addTransaction(new SagaOperation() {
+            @Override
+            public void action(Saga saga) throws Exception {
+                // update status
+                Video video = (Video) saga.getData("video");
+                videoService.updateStatus(video, Video.STATE_UPLOADED);
+            }
+        }, new SagaOperation() {// transazione di composazione
+            @Override
+            public void action(Saga saga) throws Exception {
+                // store video
+                Video video = (Video) saga.getData("video");
+                videoService.updateStatus(video, Video.STATE_WAITING_UPLOAD);
+            }
+        });
 
-        // check data
-        if (!storageService.checkVideo(file))
-            throw new HttpStatusBadRequestException();
+        sagaBuilder.addTransaction(new SagaOperation() {
+            @Override
+            public void action(Saga saga) throws Exception {
+                // send post request to video processing service
+                Video video = (Video) saga.getData("video");
+                kafkaProducer.sendVideoProcessRequest(video);
+            }
+        });
 
-        // store video
-        if (!storageService.storeVideo(video, file))
-            throw new HttpStatusInternalServerErrorException();
+        sagaBuilder.executive();
 
-        // update status
-        video = videoService.updateStatus(video, Video.STATE_UPLOADED);
-
-        // send post request to video processing service
-        kafkaProducer.sendVideoProcessRequest(video);
-
+        Video video = (Video)sagaBuilder.getData("video");
         return video;
     }
 
     @GetMapping(path = "/", produces = "application/JSON")
-    public @ResponseBody
-    List<Video> getsVideos() {
+    public @ResponseBody List<Video> getsVideos() {
         return videoService.findAll();
     }
 
