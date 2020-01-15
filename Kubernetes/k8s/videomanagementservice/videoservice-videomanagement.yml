@@ -1,15 +1,15 @@
 apiVersion: v1
 data:
-  videomanagement.properties: "SPRING_PROFILES_ACTIVE:prod\nVIDEOSERVICE_VIDEOMANAGEMENTSERVICE:http://videomanagementservice:8090\nVIDEOSERVICE_STORAGE:file:///var/video\nDATABASE_TYPE:mysql\nDATABASE_HOST:mysqlcontainer\nDATABASE_PORT:3306\nDATABASE_NAME:videoservice\nDATABASE_USER:videouser\nDATABASE_PASSWORD:video\nVIDEOSERVICE_KAFKA_VMS_TOPIC=videoservice.topic.vms\nVIDEOSERVICE_KAFKA_VPS_TOPIC=videoservice.topic.vps\nSPRING_KAFKA_BOOTSTRAP_SERVERS=PLAINTEXT://:9092
-    \ \n\n"
+  videomanagement.properties: "SPRING_PROFILES_ACTIVE:prod\nVIDEOSERVICE_VIDEOPROCESSINGSERVICE:http://videoprocessingservice:9090\nVIDEOSERVICE_STORAGE:file:///var/video\nDATABASE_TYPE:mysql\nDATABASE_HOST:mysqlcontainer\nDATABASE_PORT:3306\nDATABASE_NAME:videoservice\nDATABASE_USER:videouser\nDATABASE_PASSWORD:video\nVIDEOSERVICE_KAFKA_VMS_TOPIC:vmsTopic\nVIDEOSERVICE_KAFKA_VPS_TOPIC:vpsTopic\nVIDEOSERVICE_KAFKA:PLAINTEXT://:9092
+    \n\n"
 kind: ConfigMap
 metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
-      {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-videomanagementservice","creationTimestamp":null},"data":{"videomanagement.properties":"SPRING_PROFILES_ACTIVE:prod\nVIDEOSERVICE_VIDEOMANAGEMENTSERVICE:http://videomanagementservice:8090\nVIDEOSERVICE_STORAGE:file:///var/video\nDATABASE_TYPE:mysql\nDATABASE_HOST:mysqlcontainer\nDATABASE_PORT:3306\nDATABASE_NAME:videoservice\nDATABASE_USER:videouser\nDATABASE_PASSWORD:video\nVIDEOSERVICE_KAFKA_VMS_TOPIC=videoservice.topic.vms\nVIDEOSERVICE_KAFKA_VPS_TOPIC=videoservice.topic.vps\nSPRING_KAFKA_BOOTSTRAP_SERVERS=PLAINTEXT://:9092  \n\n"}}
-  creationTimestamp: 2020-01-12T16:53:49Z
+      {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-videomanagementservice","creationTimestamp":null},"data":{"videomanagement.properties":"SPRING_PROFILES_ACTIVE:prod\nVIDEOSERVICE_VIDEOPROCESSINGSERVICE:http://videoprocessingservice:9090\nVIDEOSERVICE_STORAGE:file:///var/video\nDATABASE_TYPE:mysql\nDATABASE_HOST:mysqlcontainer\nDATABASE_PORT:3306\nDATABASE_NAME:videoservice\nDATABASE_USER:videouser\nDATABASE_PASSWORD:video\nVIDEOSERVICE_KAFKA_VMS_TOPIC:vmsTopic\nVIDEOSERVICE_KAFKA_VPS_TOPIC:vpsTopic\nVIDEOSERVICE_KAFKA:PLAINTEXT://:9092 \n\n"}}
+  creationTimestamp: 2020-01-15T09:26:16Z
   name: videoservice-videomanagementservice
   namespace: default
-  resourceVersion: "88"
+  resourceVersion: "93"
   selfLink: /api/v1/namespaces/default/configmaps/videoservice-videomanagementservice
-  uid: 1ace697d-355c-11ea-9ce8-080027fd4e3d
+  uid: 14edb939-3779-11ea-888d-080027fd4e3d

@@ -14,17 +14,17 @@ kubectl create configmap videoservice-spout --from-file=./spout/spout.properties
 kubectl get configmap videoservice-spout -o yaml > spout/videoservice-spout.yml
 
 
-kubectl create -f ./kafka/zookeeper.yml
-kubectl create -f ./kafka/kafka-service.yml
-kubectl create -f ./kafka/kafka-broker.yml
+kubectl apply -f ./kafka/zookeeper.yml
+kubectl apply -f ./kafka/kafka-service.yml
+kubectl apply -f ./kafka/kafka-broker.yml
 
-kubectl create -f ./mysql/mysql-pv.yml
-kubectl create -f ./mysql/mysql.yml
+kubectl apply -f ./mysql/mysql-pv.yml
+kubectl apply -f ./mysql/mysql.yml
 
-kubectl create -f ./apigateway/apigateway.yml
+kubectl apply -f ./apigateway/apigateway.yml
 
-kubectl create -f ./videoprocessingservice/videoprocessingservice.yml
+kubectl apply -f ./videoprocessingservice/videoprocessingservice.yml
 
-kubectl create -f ./videomanagementservice/videomanagementservice.yml
+kubectl apply -f ./videomanagementservice/videomanagementservice.yml
 
-kubectl create -f ./spout/spout.yml
+kubectl apply -f ./spout/spout.yml

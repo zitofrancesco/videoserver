@@ -27,7 +27,7 @@ public class KafkaConsumer {
      * Se il video è stato processato correttemente command=processed|$ID altrimenti
      * in presenza di fallimento command=processingFailed|$ID
      */
-    @KafkaListener(topics = "${videoservice.kafka.consumer-topic}", groupId = "vms-consumer")
+    @KafkaListener(topics = "${videoservice.kafka.consumer-topic}")
     public void processVideoCommand(String command) {
         logger.info("received command = '{}'", command);
         try {

@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: spout
-          image: spout:v1
+          image: spout:latest
           imagePullPolicy: Never
           ports:
           - containerPort: 9020
