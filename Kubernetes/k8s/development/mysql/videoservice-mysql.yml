@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  mysql-env.properties: |-
+    MYSQL_DATABASE:videoservice
+    MYSQL_USER:videouser
+    MYSQL_PASSWORD:video
+    MYSQL_ROOT_PASSWORD:root
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-mysql","creationTimestamp":null},"data":{"mysql-env.properties":"MYSQL_DATABASE:videoservice\nMYSQL_USER:videouser\nMYSQL_PASSWORD:video\nMYSQL_ROOT_PASSWORD:root"}}
+  creationTimestamp: 2020-01-16T10:01:57Z
+  name: videoservice-mysql
+  namespace: default
+  resourceVersion: "3252"
+  selfLink: /api/v1/namespaces/default/configmaps/videoservice-mysql
+  uid: 3b5b20f0-3847-11ea-928d-080027fd4e3d

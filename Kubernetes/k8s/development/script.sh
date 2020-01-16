@@ -1,4 +1,4 @@
-kubectl create configmap videoservice-mysql --from-file=./mysql/mysql.properties --save-config
+kubectl create configmap videoservice-mysql --from-file=./mysql/mysql-env.properties --save-config
 kubectl get configmap videoservice-mysql -o yaml > mysql/videoservice-mysql.yml
 
 kubectl create configmap videoservice-apigateway --from-file=./apigateway/apigateway.properties --save-config
@@ -14,9 +14,7 @@ kubectl create configmap videoservice-spout --from-file=./spout/spout.properties
 kubectl get configmap videoservice-spout -o yaml > spout/videoservice-spout.yml
 
 
-kubectl apply -f ./kafka/zookeeper.yml
-kubectl apply -f ./kafka/kafka-service.yml
-kubectl apply -f ./kafka/kafka-broker.yml
+kubectl apply -f ./kafka/kafka.yml
 
 kubectl apply -f ./mysql/mysql-pv.yml
 kubectl apply -f ./mysql/mysql.yml
