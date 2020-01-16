@@ -15,6 +15,9 @@ spec:
         image: wurstmeister/kafka
         ports:
         - containerPort: 9092
+        imagePullPolicy: IfNotPresent
+        securityContext:
+            privileged: true
         env:
         - name: KAFKA_ZOOKEEPER_CONNECT
           value: zoo1:2181

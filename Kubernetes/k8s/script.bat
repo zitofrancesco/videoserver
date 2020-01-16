@@ -14,12 +14,15 @@ kubectl create configmap videoservice-videoprocessingservice --from-file=./video
 kubectl get configmap videoservice-videoprocessingservice -o yaml > videoprocessing/videoservice-videoprocessing.yml
 
 
+docker run -d -p 5000:5000 --name registry registry:2
+
 
 kubectl delete -f ./apigateway/apigateway.yml
 mvn package -f ./apigateway/pom.xml
 docker build --rm -f ./apigateway/Dockerfile -t videoservice/apigateway:latest apigateway
 cd ./k8s
-kubectl create -f ./apigateway/apigateway.yml
+
+
 
 
 kubectl delete -f ./kafka/kafka-broker.yml

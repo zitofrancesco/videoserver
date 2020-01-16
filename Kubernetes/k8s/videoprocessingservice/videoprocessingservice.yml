@@ -24,8 +24,12 @@ spec:
     spec:
       containers:
         - name: videoprocessingservice
-          image: videoprocessingservice:latest
-          imagePullPolicy: Never
+          image: videoservice/videoprocessingservice:latest
+          imagePullPolicy: Always
+          securityContext:
+              privileged: true
+          imagePullSecrets:
+          - name: register
           ports:
           - containerPort: 9090
           envFrom:

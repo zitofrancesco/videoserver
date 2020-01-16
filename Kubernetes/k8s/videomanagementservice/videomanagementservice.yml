@@ -24,8 +24,12 @@ spec:
     spec:
       containers:
         - name: videomanagementservice
-          image: videomanagementservice:latest
-          imagePullPolicy: Never
+          image: videoservice/videomanagementservice:latest
+          imagePullPolicy: Always
+          securityContext:
+              privileged: true
+          imagePullSecrets:
+          - name: register
           ports:
           - containerPort: 8090
           envFrom:

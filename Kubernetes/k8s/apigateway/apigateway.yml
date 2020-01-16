@@ -24,8 +24,12 @@ spec:
     spec:
       containers:
         - name: apigateway
-          image: apigateway:latest
-          imagePullPolicy: Never
+          image: videoservice/apigateway:latest
+          imagePullPolicy: Always
+          securityContext:
+              privileged: true
+          imagePullSecrets:
+          - name: register
           ports:
           - containerPort: 8080
           envFrom:
