@@ -1,4 +1,7 @@
 # Create configmap
+kubectl create secret generic videoservice-secret --from-file=./mysql/mysql-secret.properties --save-config
+kubectl get secret videoservice-secret -o yaml > mysql/videoservice-secret.yml
+
 kubectl create configmap videoservice-mysql --from-file=./mysql/mysql-env.properties --save-config
 kubectl get configmap videoservice-mysql -o yaml > mysql/videoservice-mysql.yml
 
@@ -22,13 +25,13 @@ kubectl apply -f ./kafka/kafka.yml
 kubectl apply -f ./mysql/mysql-pv.yml
 kubectl apply -f ./mysql/mysql.yml
 
-kubectl apply -f ./apigateway/apigateway.yml
+# kubectl apply -f ./apigateway/apigateway.yml
 
-kubectl apply -f ./videoprocessingservice/videoprocessingservice.yml
+# kubectl apply -f ./videoprocessingservice/videoprocessingservice.yml
 
-kubectl apply -f ./videomanagementservice/videomanagementservice.yml
+# kubectl apply -f ./videomanagementservice/videomanagementservice.yml
 
-kubectl apply -f ./spout/spout.yml
+# kubectl apply -f ./spout/spout.yml
 
 # Start Spark
 # >> kubectl cluster-info 

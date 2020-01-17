@@ -31,6 +31,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: videoservice-videomanagementservice
+            - secretRef:
+                name: videoservice-secret
           volumeMounts:
           - mountPath: /var/video
             name: videoservice-volume
