@@ -87,6 +87,11 @@ public class VideoController {
                     throw new HttpStatusBadRequestException();
                 saga.setData("video", video);
             }
+        },new SagaOperation(){
+            @Override
+            public void action(Saga saga) throws Exception {
+                saga.removeData("video");
+            }
         });
 
         sagaBuilder.addTransaction(new SagaOperation() {
@@ -111,14 +116,16 @@ public class VideoController {
             public void action(Saga saga) throws Exception {
                 // update status
                 Video video = (Video) saga.getData("video");
-                videoService.updateStatus(video, Video.STATE_UPLOADED);
+                video=videoService.updateStatus(video, Video.STATE_UPLOADED);
+                saga.setData("video", video);
             }
-        }, new SagaOperation() {// transazione di composazione
+        }, new SagaOperation() {// transazione di compensazione
             @Override
             public void action(Saga saga) throws Exception {
                 // store video
                 Video video = (Video) saga.getData("video");
                 videoService.updateStatus(video, Video.STATE_WAITING_UPLOAD);
+                saga.setData("video", video);
             }
         });
 

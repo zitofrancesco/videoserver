@@ -13,6 +13,7 @@ public class Video {
     public static final String STATE_UPLOADED = "Uploaded";
     public static final String STATE_NOT_AVAILABLE = "NotAvailable";
     public static final String STATE_AVAILABLE = "Available";
+    public static final String STATE_ERROR = "Error";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
