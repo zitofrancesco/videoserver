@@ -17,21 +17,29 @@ kubectl get configmap videoservice-videoprocessingservice -o yaml > videoprocess
 kubectl create configmap videoservice-spout --from-file=./spout/spout.properties --save-config
 kubectl get configmap videoservice-spout -o yaml > spout/videoservice-spout.yml
 
-# Create services and pods
-# >> docker build -t ... (for all the images)
-
 kubectl apply -f ./kafka/kafka.yml
 
 kubectl apply -f ./mysql/mysql-pv.yml
 kubectl apply -f ./mysql/mysql.yml
 
-# kubectl apply -f ./apigateway/apigateway.yml
+# Create images 
+# >> cd ..
+# >> cd ..
+# >> eval $(minikube docker-env) // not found for --vm-driver=none
+# >> docker build -t apigateway -f apigateway/Dockerfile-prod ./apigateway
+# >> docker build -t videomanagementservice -f videomanagementservice/Dockerfile-prod ./videomanagementservice
+# >> docker build -t videoprocessingservice -f videoprocessingservice/Dockerfile-prod ./videoprocessingservice
+# >> docker build -t spout -f spout/Dockerfile-prod ./spout
 
-# kubectl apply -f ./videoprocessingservice/videoprocessingservice.yml
+# Create services and pods
 
-# kubectl apply -f ./videomanagementservice/videomanagementservice.yml
+# >> kubectl apply -f ./apigateway/apigateway.yml
 
-# kubectl apply -f ./spout/spout.yml
+# >> kubectl apply -f ./videoprocessingservice/videoprocessingservice.yml
+
+# >> kubectl apply -f ./videomanagementservice/videomanagementservice.yml
+
+# >> kubectl apply -f ./spout/spout.yml
 
 # Start Spark
 # >> kubectl cluster-info 

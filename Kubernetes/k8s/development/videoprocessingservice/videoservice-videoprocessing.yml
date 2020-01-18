@@ -1,15 +1,15 @@
 apiVersion: v1
 data:
-  videoprocessing.properties: "SPRING_PROFILES_ACTIVE=prod\nVIDEOSERVICE_STORAGE=file:///var/video\nVIDEOSERVICE_KAFKA_VMS_TOPIC=vmsTopic\nVIDEOSERVICE_KAFKA_VPS_TOPIC=vpsTopic\nVIDEOSERVICE_KAFKA=kafkaa:9092
+  videoprocessing.properties: "VIDEOSERVICE_STORAGE=file:///var/video\nVIDEOSERVICE_KAFKA_VMS_TOPIC=vmsTopic\nVIDEOSERVICE_KAFKA_VPS_TOPIC=vpsTopic\nVIDEOSERVICE_KAFKA=kafkaa:9092
     \n\n\n"
 kind: ConfigMap
 metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
-      {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-videoprocessingservice","creationTimestamp":null},"data":{"videoprocessing.properties":"SPRING_PROFILES_ACTIVE=prod\nVIDEOSERVICE_STORAGE=file:///var/video\nVIDEOSERVICE_KAFKA_VMS_TOPIC=vmsTopic\nVIDEOSERVICE_KAFKA_VPS_TOPIC=vpsTopic\nVIDEOSERVICE_KAFKA=kafkaa:9092 \n\n\n"}}
-  creationTimestamp: 2020-01-17T16:04:34Z
+      {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-videoprocessingservice","creationTimestamp":null},"data":{"videoprocessing.properties":"VIDEOSERVICE_STORAGE=file:///var/video\nVIDEOSERVICE_KAFKA_VMS_TOPIC=vmsTopic\nVIDEOSERVICE_KAFKA_VPS_TOPIC=vpsTopic\nVIDEOSERVICE_KAFKA=kafkaa:9092 \n\n\n"}}
+  creationTimestamp: 2020-01-18T07:54:13Z
   name: videoservice-videoprocessingservice
   namespace: default
-  resourceVersion: "68"
+  resourceVersion: "92"
   selfLink: /api/v1/namespaces/default/configmaps/videoservice-videoprocessingservice
-  uid: 0d89d726-3943-11ea-8e98-080027fd4e3d
+  uid: b7c09a81-39c7-11ea-98f3-080027fd4e3d

@@ -8,9 +8,9 @@ metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
       {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-mysql","creationTimestamp":null},"data":{"mysql-env.properties":"MYSQL_DATABASE=videoservice\n\n"}}
-  creationTimestamp: 2020-01-17T16:04:32Z
+  creationTimestamp: 2020-01-18T07:54:10Z
   name: videoservice-mysql
   namespace: default
-  resourceVersion: "64"
+  resourceVersion: "86"
   selfLink: /api/v1/namespaces/default/configmaps/videoservice-mysql
-  uid: 0c9a41a2-3943-11ea-8e98-080027fd4e3d
+  uid: b628a71f-39c7-11ea-98f3-080027fd4e3d
