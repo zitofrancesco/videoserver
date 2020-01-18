@@ -9,8 +9,7 @@ public class Saga {
     private List<SagaTransaction> operations;
     private Integer indexOperation;
     private HashMap<String, Object> data;
-    
-    
+
     public Saga() {
         this.operations = new ArrayList<>();
         this.indexOperation = 0;
@@ -21,14 +20,15 @@ public class Saga {
         operations.add(new SagaTransaction(operation, compensatingTransaction, null));
     }
 
-    public void addTransaction(SagaOperation operation, SagaOperation compensatingTransaction,SagaCondition condition) {
-        operations.add(new SagaTransaction(operation, compensatingTransaction,condition));
+    public void addTransaction(SagaOperation operation, SagaOperation compensatingTransaction,
+            SagaCondition condition) {
+        operations.add(new SagaTransaction(operation, compensatingTransaction, condition));
     }
 
     public void addTransaction(SagaOperation operation) {
         operations.add(new SagaTransaction(operation, null));
     }
-    
+
     public void addTransaction(SagaOperation operation, SagaCondition condition) {
         operations.add(new SagaTransaction(operation, condition));
     }
@@ -41,8 +41,7 @@ public class Saga {
         return this.operations.get(this.indexOperation);
     }
 
-    public Object getData(String key)
-    {
+    public Object getData(String key) {
         return this.data.get(key);
     }
 
@@ -55,33 +54,32 @@ public class Saga {
     }
 
     public void executive() throws Exception {
-        if(this.indexOperation!=0)
+        if (this.indexOperation != 0)
             throw new Exception("Invalid operation");
         this.indexOperation = 0;
         for (SagaTransaction sagaTransaction : this.operations) {
             if (sagaTransaction.expressionResult(this)) {
                 try {
-                    sagaTransaction.getOperation().action(this);
+                    sagaTransaction.invoke(this);
                     this.indexOperation++;
                 } catch (Exception ex) {
                     this.roolback();
                     throw ex;
                 }
-            }
-            else {
+            } else {
                 this.indexOperation++;
             }
         }
     }
-    
+
     public void roolback() throws Exception {
-        if (this.indexOperation ==0 )
+        if (this.indexOperation == 0)
             throw new Exception("Invalid operation");
 
         for (int i = this.indexOperation; i > 0; i--) {
             SagaTransaction transaction = this.operations.get(i);
-            if(!transaction.isRetriableTransaction()&&transaction.expressionResult(this))
-                transaction.getCompensatingTransaction().action(this);
+            if (transaction.expressionResult(this))
+                transaction.roolback(this);
             this.indexOperation--;
         }
     }

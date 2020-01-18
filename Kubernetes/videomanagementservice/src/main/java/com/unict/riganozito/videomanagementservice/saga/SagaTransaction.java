@@ -17,23 +17,20 @@ public class SagaTransaction {
         this.conditionTransaction = condition;
     }
 
-    public boolean isRetriableTransaction() {
-        return this.compensatingTransaction == null;
+    public void invoke(Saga context) throws Exception {
+        this.operation.action(context);
+    }
+    
+    public void roolback(Saga context) throws Exception {
+        if (this.compensatingTransaction != null)
+            this.compensatingTransaction.action(context);
     }
 
-    public SagaOperation getOperation() {
-        return operation;
-    }
-
-    public SagaOperation getCompensatingTransaction() {
-        return compensatingTransaction;
-    }
-
-    public boolean expressionResult(Saga saga) {
+    public boolean expressionResult(Saga context) {
         SagaCondition condition = this.conditionTransaction;
         if(condition==null)
             condition = SagaCondition.Default();
-        return condition.expression(saga);
+        return condition.expression(context);
     }
 
 
