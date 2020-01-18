@@ -26,10 +26,11 @@ kubectl apply -f ./mysql/mysql.yml
 # >> cd ..
 # >> cd ..
 # >> eval $(minikube docker-env) // not found for --vm-driver=none
-# >> docker build -t apigateway -f apigateway/Dockerfile-prod ./apigateway
-# >> docker build -t videomanagementservice -f videomanagementservice/Dockerfile-prod ./videomanagementservice
-# >> docker build -t videoprocessingservice -f videoprocessingservice/Dockerfile-prod ./videoprocessingservice
-# >> docker build -t spout -f spout/Dockerfile-prod ./spout
+# >> docker build -t apigateway -f apigateway/Dockerfile-prod1 ./apigateway
+# >> docker build -t videomanagementservice -f videomanagementservice/Dockerfile-prod1 ./videomanagementservice
+# >> docker build -t videoprocessingservice -f videoprocessingservice/Dockerfile-prod1 ./videoprocessingservice
+# >> docker build -t spout -f spout/Dockerfile-prod1 ./spout
+# if eval works, you shall use Dockerfile-prod to build each image
 
 # Create services and pods
 

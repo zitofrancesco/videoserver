@@ -1,7 +1,7 @@
 FROM maven:3-jdk-8 as builder
 WORKDIR /app
 COPY ["/src","/pom.xml","./"]
-RUN mvn package -P prod
+RUN mvn package -P prod -Darguments="-DSPRING_KAFKA_BOOTSTRAP_SERVERS=kafkaa:9092 -DVIDEOSERVICE_KAFKA_SPARK_TOPIC=videoservice.topic.spark"
 
 FROM java:8
 WORKDIR /app

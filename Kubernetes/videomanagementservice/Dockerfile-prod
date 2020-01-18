@@ -1,7 +1,7 @@
 FROM maven:3-jdk-8 as builder
 WORKDIR /app
 COPY ["/src","/pom.xml","./"]
-RUN mvn package -P prod -Darguments="-DSPRING_PROFILES_ACTIVE=prod -DVIDEOSERVICE_VIDEOPROCESSINGSERVICE=videoprocessingservice -DVIDEOSERVICE_STORAGE=file:///var/video -DDATABASE_TYPE=mysql -DDATABASE_HOST=mysql -DDATABASE_PORT=3306 -DDATABASE_NAME=videoservice -DDATABASE_USER=videouser -DDATABASE_PASSWORD=video -DVIDEOSERVICE_KAFKA_VMS_TOPIC=vmsTopic -DVIDEOSERVICE_KAFKA_VPS_TOPIC=vpsTopic -DVIDEOSERVICE_KAFKA=kafkaa:9092"
+RUN mvn package -P prod
 
 FROM java:8
 WORKDIR /app
