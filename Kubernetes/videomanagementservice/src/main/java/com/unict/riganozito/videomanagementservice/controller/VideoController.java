@@ -71,7 +71,7 @@ public class VideoController {
         Saga sagaBuilder = new Saga();
         sagaBuilder.addTransaction(new SagaOperation() {
             @Override
-            public void action(Saga saga) throws Exception {
+            public void action(Saga context) throws Exception {
                 // find video
                 Video video = videoService.findById(id);
                 if (video == null)
@@ -85,48 +85,55 @@ public class VideoController {
                 // check data
                 if (!storageService.checkVideo(file))
                     throw new HttpStatusBadRequestException();
-                saga.setData("video", video);
+                context.setData("video", video);
+            }
+        },new SagaOperation(){
+            @Override
+            public void action(Saga context) throws Exception {
+                context.removeData("video");
             }
         });
 
         sagaBuilder.addTransaction(new SagaOperation() {
             @Override
-            public void action(Saga saga) throws Exception {
+            public void action(Saga context) throws Exception {
                 // store video
-                Video video = (Video) saga.getData("video");
+                Video video = (Video) context.getData("video");
                 if (!storageService.storeVideo(video, file))
                     throw new HttpStatusInternalServerErrorException();
             }
         }, new SagaOperation() {// transazione di compensazione
             @Override
-            public void action(Saga saga) throws Exception {
+            public void action(Saga context) throws Exception {
                 // delete video
-                Video video = (Video) saga.getData("video");
+                Video video = (Video) context.getData("video");
                 storageService.removeVideo(video);
             }
         });
 
         sagaBuilder.addTransaction(new SagaOperation() {
             @Override
-            public void action(Saga saga) throws Exception {
+            public void action(Saga context) throws Exception {
                 // update status
-                Video video = (Video) saga.getData("video");
-                videoService.updateStatus(video, Video.STATE_UPLOADED);
+                Video video = (Video) context.getData("video");
+                video=videoService.updateStatus(video, Video.STATE_UPLOADED);
+                context.setData("video", video);
             }
-        }, new SagaOperation() {// transazione di composazione
+        }, new SagaOperation() {// transazione di compensazione
             @Override
-            public void action(Saga saga) throws Exception {
+            public void action(Saga context) throws Exception {
                 // store video
-                Video video = (Video) saga.getData("video");
+                Video video = (Video) context.getData("video");
                 videoService.updateStatus(video, Video.STATE_WAITING_UPLOAD);
+                context.setData("video", video);
             }
         });
 
         sagaBuilder.addTransaction(new SagaOperation() {
             @Override
-            public void action(Saga saga) throws Exception {
+            public void action(Saga context) throws Exception {
                 // send post request to video processing service
-                Video video = (Video) saga.getData("video");
+                Video video = (Video) context.getData("video");
                 kafkaProducer.sendVideoProcessRequest(video);
             }
         });
