@@ -25,12 +25,11 @@ kubectl apply -f ./mysql/mysql.yml
 # Create images 
 # >> cd ..
 # >> cd ..
-# >> eval $(minikube docker-env) // not found for --vm-driver=none
-# >> docker build -t apigateway -f apigateway/Dockerfile-prod1 ./apigateway
-# >> docker build -t videomanagementservice -f videomanagementservice/Dockerfile-prod1 ./videomanagementservice
-# >> docker build -t videoprocessingservice -f videoprocessingservice/Dockerfile-prod1 ./videoprocessingservice
-# >> docker build -t spout -f spout/Dockerfile-prod1 ./spout
-# if eval works, you shall use Dockerfile-prod to build each image
+# >> eval $(minikube docker-env)
+# >> docker build -t apigateway -f apigateway/Dockerfile-prod ./apigateway
+# >> docker build -t videomanagementservice -f videomanagementservice/Dockerfile-prod ./videomanagementservice
+# >> docker build -t videoprocessingservice -f videoprocessingservice/Dockerfile-prod ./videoprocessingservice
+# >> docker build -t spout -f spout/Dockerfile-prod ./spout
 
 # Create services and pods
 
@@ -48,5 +47,5 @@ kubectl apply -f ./mysql/mysql.yml
 # >> cd /usr/local/spark/
 # >> ./bin/docker-image-tool.sh -t docker-spark build
 # >> ./bin/spark-submit --class org.apache.spark.examples.SparkPi --master k8s://https://127.0.0.1:8443 --deploy-mode cluster --executor-memory 20G --num-executors 50 \
-# --conf spark.kubernetes.container.image=spark:spark-docker path\to\exe.jar
+# --conf spark.kubernetes.container.image=spark:spark-docker path\to\executable.jar
 

@@ -3,6 +3,7 @@ package com.unict.riganozito.spout.service;
 import com.unict.riganozito.spout.entity.Record;
 import com.unict.riganozito.spout.kafka.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ public class DataRetrieveService {
 
     @Autowired
     KafkaProducer kafkaProducer;
+
+    @Value("${hostname}")
+    private String host;
 
     ArrayList<Record> records;
 
@@ -67,7 +71,7 @@ public class DataRetrieveService {
 
     @Scheduled(fixedRate = 10000)
     public void retrieve() {
-        ProcessBuilder builder = new ProcessBuilder("curl", "http://localhost:8080/actuator/prometheus");
+        ProcessBuilder builder = new ProcessBuilder("curl", "http://"+host+":8080/actuator/prometheus");
         try {
             Process process = builder.start();
             InputStream inputStream = process.getInputStream();
