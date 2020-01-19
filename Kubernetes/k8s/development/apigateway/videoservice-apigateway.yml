@@ -8,9 +8,9 @@ metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
       {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-apigateway","creationTimestamp":null},"data":{"apigateway.properties":"VIDEOSERVICE_VIDEOMANAGEMENTSERVICE=http://videomanagementservice:8090\nVIDEOSERVICE_STORAGE=file:///var/video\n"}}
-  creationTimestamp: 2020-01-19T10:46:50Z
+  creationTimestamp: 2020-01-19T16:11:26Z
   name: videoservice-apigateway
   namespace: default
-  resourceVersion: "231"
+  resourceVersion: "75"
   selfLink: /api/v1/namespaces/default/configmaps/videoservice-apigateway
-  uid: ff699589-3aa8-11ea-a5e8-080027fd4e3d
+  uid: 58121241-3ad6-11ea-9fdd-080027fd4e3d

@@ -7,9 +7,9 @@ metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
       {"kind":"ConfigMap","apiVersion":"v1","metadata":{"name":"videoservice-videomanagementservice","creationTimestamp":null},"data":{"videomanagement.properties":"SPRING_PROFILES_ACTIVE=prod\nVIDEOSERVICE_VIDEOPROCESSINGSERVICE=videoprocessingservice\nVIDEOSERVICE_STORAGE=file:///var/video\nDATABASE_HOST=mysql-service\nDATABASE_PORT=3306\nDATABASE_NAME=videoservice\nDATABASE_USER=videouser\nDATABASE_PASSWORD=video\nVIDEOSERVICE_KAFKA_VMS_TOPIC=vmsTopic\nVIDEOSERVICE_KAFKA_VPS_TOPIC=vpsTopic\nVIDEOSERVICE_KAFKA=kafkaa:9092 \n\n"}}
-  creationTimestamp: 2020-01-19T10:46:50Z
+  creationTimestamp: 2020-01-19T16:11:27Z
   name: videoservice-videomanagementservice
   namespace: default
-  resourceVersion: "234"
+  resourceVersion: "76"
   selfLink: /api/v1/namespaces/default/configmaps/videoservice-videomanagementservice
-  uid: ffbb37ce-3aa8-11ea-a5e8-080027fd4e3d
+  uid: 587b390f-3ad6-11ea-9fdd-080027fd4e3d

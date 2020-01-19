@@ -31,7 +31,7 @@ object App {
 
   /* Configure Kafka */
   val kafkaParams = Map[String, Object](
-    "bootstrap.servers" -> "PLAINTEXT://<localhost>:9092",
+    "bootstrap.servers" -> "kafkaa:9092",
     "key.deserializer" -> classOf[StringDeserializer],
     "value.deserializer" -> classOf[StringDeserializer],
     "group.id" -> "spark",
@@ -62,8 +62,8 @@ object App {
 
   var global_req_sum, global_time_sum, global_req_avg, global_time_avg = 0.0
 
+  // get values from dstreams
 
-  /*
   if (avg_req.length != 0) {
     for (i <- 0 to (avg_req.length - 1)) {
       global_req_sum += avg_req(i)
@@ -94,5 +94,5 @@ object App {
   }
   avg_req += r_avg
   avg_time += t_avg
-*/
+
 }
